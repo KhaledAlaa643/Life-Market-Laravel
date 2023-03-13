@@ -17,7 +17,8 @@ return new class extends Migration
             $table->text('description');
             $table->double('price', 15, 2);
             $table->string('brand');
-            $table->integer('quantity');        
+            $table->integer('quantity');
+            $table->string('photo');
             $table->timestamps();
         });
     }
