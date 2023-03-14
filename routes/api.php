@@ -40,5 +40,6 @@ Route::group(['middleware' => ['api']], function(){     //get products by catego
     Route::put('update/products/{num}', 'App\Http\Controllers\API\ProductsConroller@updateproduct');
 
     Route::put('products/rate/{num}', 'App\Http\Controllers\API\ProductsConroller@getrate');
+    Route::get('toprating/products', 'App\Http\Controllers\API\ProductsConroller@top_rating_products');
 
    });   

@@ -21,7 +21,8 @@ class ProductsConroller extends Controller
     }
 
 
-    public function getrate (string $id)
+    public function getrate (string $id) //update rate of product based on product id from prd rate table
+
     {
         $stars= ProductsRating::where('prd_id',$id)->get("star");
         $sum=0;
@@ -48,11 +49,28 @@ class ProductsConroller extends Controller
         {
            return [];
         }
-         
+
+    }
 
 
-        
+    public function top_rating_products ()
+    {   
+        $all_products[]=[];
+        $i=0;
+        $products =Products::all();
+        foreach ($products as $prd)
+        {
+            $all_products[$i]=$prd;
+             $i++;
+        }
 
+         $x= usort($all_products, function($a, $b)
+             {
+            return $b->prd_rating - $a->prd_rating;
+           });
+
+             return $all_products;
+       
     }
 
 
