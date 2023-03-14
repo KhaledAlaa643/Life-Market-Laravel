@@ -64,13 +64,33 @@ class ProductsConroller extends Controller
              $i++;
         }
 
-         $x= usort($all_products, function($a, $b)
+          usort($all_products, function($a, $b)
              {
             return $b->prd_rating - $a->prd_rating;
            });
 
              return $all_products;
        
+    }
+
+    public function top_selling_products ()
+    {
+        $all_products[]=[];
+        $i=0;
+        $products =Products::all();
+        foreach ($products as $prd)
+        {
+            $all_products[$i]=$prd;
+             $i++;
+        }
+
+          usort($all_products, function($a, $b)
+             {
+            return $b->selling_count - $a->selling_count;
+           });
+
+             return $all_products;
+
     }
 
 
