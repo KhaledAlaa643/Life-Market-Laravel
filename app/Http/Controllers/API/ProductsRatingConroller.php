@@ -37,7 +37,15 @@ class ProductsRatingConroller extends Controller
             $sum+=$y["star"];
             $i++;
         }
-        return $sum/$i;
+        if ($i!=0)
+        {
+            return $sum/$i;
+
+        }
+        else
+        {
+            return "no reviews";
+        }
     }
 
     /**

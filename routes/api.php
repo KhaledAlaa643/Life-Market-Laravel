@@ -34,7 +34,11 @@ Route::group(['middleware' => ['api']], function(){     //get products by catego
     Route::get('category/products/{num}', 'App\Http\Controllers\API\CategoriesConroller@getproducts');
    });
 
-   Route::group(['middleware' => ['api']], function(){     //update product quantity& selling count by prod id          
+   Route::group(['middleware' => ['api']], function(){              
    
+    //update product quantity& selling count by prod id 
     Route::put('update/products/{num}', 'App\Http\Controllers\API\ProductsConroller@updateproduct');
+
+    Route::put('products/rate/{num}', 'App\Http\Controllers\API\ProductsConroller@getrate');
+
    });   
