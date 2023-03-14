@@ -8,9 +8,19 @@ use App\Models\Products;
 
 class ProductsConroller extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    public function updateproduct(string $id)
+    {
+        $product=Products::find($id);
+        
+        $product["selling_count"]+=1;
+        $product["quantity"]-=1;
+        $product->save();
+        // $product->update($product->all());
+        return $product;
+        
+    }
+
+
     public function index()
     {
         $x=Products::all();

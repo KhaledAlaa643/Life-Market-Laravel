@@ -21,14 +21,20 @@ Route::apiResource('products',ProductsConroller::class);
 Route::apiResource('rating',ProductsRatingConroller::class);
 Route::apiResource('discount',ProductsDiscountConroller::class);
 Route::apiResource('offers',OffersConroller::class);
+Route::apiResource('offers_products',OfferProductsConroller::class);
+
 
 Route::group(['middleware' => ['api']], function(){
    
- Route::post('search', 'App\Http\Controllers\API\SearchConroller@search');
+ Route::post('search', 'App\Http\Controllers\API\SearchConroller@search');  //search for product using name ,brand ,sub cat
 });
-Route::apiResource('offers_products',OfferProductsConroller::class);
 
-Route::group(['middleware' => ['api']], function(){
+Route::group(['middleware' => ['api']], function(){     //get products by category id         
    
     Route::get('category/products/{num}', 'App\Http\Controllers\API\CategoriesConroller@getproducts');
    });
+
+   Route::group(['middleware' => ['api']], function(){     //update product quantity& selling count by prod id          
+   
+    Route::put('update/products/{num}', 'App\Http\Controllers\API\ProductsConroller@updateproduct');
+   });   
