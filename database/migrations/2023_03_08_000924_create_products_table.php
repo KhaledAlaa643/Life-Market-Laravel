@@ -19,10 +19,8 @@ return new class extends Migration
             $table->string('brand');
             $table->integer('quantity');
             $table->string('photo');
-            $table->integer('quantity');   
             $table->integer('prd_rating');   
             $table->integer('selling_count');   
-
             $table->timestamps();
         });
     }
