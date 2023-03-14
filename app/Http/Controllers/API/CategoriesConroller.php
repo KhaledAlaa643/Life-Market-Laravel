@@ -6,12 +6,36 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Categories;
 use App\Models\SubCategories;
+use App\Models\Products;
 
 class CategoriesConroller extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+
+    public function getproducts (string $id)   //get products by cat id
+    {
+        $arr[]=[];
+        $i=0;
+        $subcat_ids=SubCategories::where('cat_id',$id)->get("id");
+        if (count($subcat_ids)!=0)
+        {
+         foreach ($subcat_ids as $ids )
+         {
+            $product=Products::where('sub_cat_id',$ids["id"])->get();
+            if (count ($product)!=0)
+            {
+            $arr[$i]=$product[0];
+            $i++;
+            }
+         }   
+
+        }
+        
+        return $arr;
+    }
+
     public function index()
     {
         $categories=Categories::all();
