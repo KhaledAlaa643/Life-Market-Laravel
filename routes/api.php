@@ -9,6 +9,7 @@ use App\Http\Controllers\API\ProductsRatingConroller;
 use App\Http\Controllers\API\ProductsDiscountConroller;
 use App\Http\Controllers\API\SearchConroller;
 use App\Http\Controllers\API\OffersConroller;
+use App\Http\Controllers\API\OfferProductsConroller;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -25,3 +26,9 @@ Route::group(['middleware' => ['api']], function(){
    
  Route::post('search', 'App\Http\Controllers\API\SearchConroller@search');
 });
+Route::apiResource('offers_products',OfferProductsConroller::class);
+
+Route::group(['middleware' => ['api']], function(){
+   
+    Route::get('category/products/{num}', 'App\Http\Controllers\API\CategoriesConroller@getproducts');
+   });
