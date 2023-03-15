@@ -40,7 +40,7 @@ class ProductDetailsController extends Controller
     {
         // $details;
         $details= Products::find($id);
-
+        
         // $Rating= ProductsRating::find($id);
        
         // $delivery_price = delivery_price::where('price',$id)->get();

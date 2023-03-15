@@ -25,7 +25,30 @@ class ShoppingCartController extends Controller
      */
     public function store(Request $request)
     {
-        // 
+        // $addToCart= $request->order_items()->create($request->all());
+        // return $addToCart;  
+
+        // "id": 3,
+        // "quantity": 5,
+        // "total_price": 260,
+        // "created_at": "2023-03-20T20:45:52.000000Z",
+        // "updated_at": "2023-03-15T00:24:18.000000Z",
+        // "prd_id": 7,
+        // "order_id": 3
+        
+       $product = new order_items;
+       $product->quantity = $request->quantity;
+       $product->total_price = $request->total_price;
+       $product->created_at = $request->created_at;
+       $product->updated_at = $request->updated_at;
+       $product->prd_id = $request->prd_id;
+       $product->order_id = $request->order_id;
+      
+
+       $product->save();
+
+       return $product;
+
 
     }
 

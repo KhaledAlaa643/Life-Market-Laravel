@@ -9,8 +9,7 @@ class ProductsRating extends Model
 {
     use HasFactory;
     protected $table="products_rating";
-    protected $fillable = ['review','star'];
-
+    
     
     public function Products (){
 
