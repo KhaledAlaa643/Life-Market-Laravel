@@ -9,7 +9,8 @@ use App\Models\ProductsRating;
 
 class ProductsConroller extends Controller
 {
-    public function updateproduct(string $id)  //update product quantity& selling count by prod id 
+    //update product quantity& selling count by prod id 
+    public function updateproduct(string $id)  
     {
         $product=Products::find($id);
         
@@ -20,8 +21,8 @@ class ProductsConroller extends Controller
         
     }
 
-
-    public function getrate (string $id) //update rate of product based on product id from prd rate table
+//update rate of product based on product id from prd rate table
+    public function getrate (string $id) 
 
     {
         $stars= ProductsRating::where('prd_id',$id)->get("star");
@@ -52,8 +53,8 @@ class ProductsConroller extends Controller
 
     }
 
-
-    public function top_rating_products ()
+//get top rating products
+    public function top_rating_products () 
     {   
         $all_products[]=[];
         $i=0;
@@ -72,7 +73,7 @@ class ProductsConroller extends Controller
              return $all_products;
        
     }
-
+//get top selling products
     public function top_selling_products ()
     {
         $all_products[]=[];

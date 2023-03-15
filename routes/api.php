@@ -25,12 +25,12 @@ Route::apiResource('offers_products',OfferProductsConroller::class);
 
 
 Route::group(['middleware' => ['api']], function(){
-   
- Route::post('search', 'App\Http\Controllers\API\SearchConroller@search');  //search for product using name ,brand ,sub cat
+   //search for product using name ,brand ,sub cat
+ Route::post('search', 'App\Http\Controllers\API\SearchConroller@search');  
 });
 
-Route::group(['middleware' => ['api']], function(){     //get products by category id         
-   
+Route::group(['middleware' => ['api']], function(){            
+     //get products by category id 
     Route::get('category/products/{num}', 'App\Http\Controllers\API\CategoriesConroller@getproducts');
    });
 
@@ -38,9 +38,11 @@ Route::group(['middleware' => ['api']], function(){     //get products by catego
    
     //update product quantity& selling count by prod id 
     Route::put('update/products/{num}', 'App\Http\Controllers\API\ProductsConroller@updateproduct');
-
+     //update rate of product based on product id from prd rate table
     Route::put('products/rate/{num}', 'App\Http\Controllers\API\ProductsConroller@getrate');
+    //get top rating products
     Route::get('toprating/products', 'App\Http\Controllers\API\ProductsConroller@top_rating_products');
+    //get top selling products
     Route::get('topselling/products', 'App\Http\Controllers\API\ProductsConroller@top_selling_products');
 
    });   
