@@ -15,8 +15,8 @@ class ShoppingCartController extends Controller
 
     public function index()
     {
-        $cart= order_items::select('quantity','total_price','prd_id','order_id')->get();
-        // $cart= order_items::all();
+        // $cart= order_items::select('quantity','total_price','prd_id','order_id')->get();
+        $cart= order_items::all();
         return  $cart;
     }
 
