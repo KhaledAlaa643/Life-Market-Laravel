@@ -10,6 +10,7 @@ use App\Http\Controllers\API\ProductsDiscountConroller;
 use App\Http\Controllers\API\SearchConroller;
 use App\Http\Controllers\API\OffersConroller;
 use App\Http\Controllers\API\OfferProductsConroller;
+use App\Http\Controllers\API\FavouriteItemConroller;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -22,6 +23,7 @@ Route::apiResource('rating',ProductsRatingConroller::class);
 Route::apiResource('discount',ProductsDiscountConroller::class);
 Route::apiResource('offers',OffersConroller::class);
 Route::apiResource('offers_products',OfferProductsConroller::class);
+Route::apiResource('favourite_item',FavouriteItemConroller::class);
 
 
 Route::group(['middleware' => ['api']], function(){
