@@ -9,6 +9,8 @@ use App\Http\Controllers\API\ProductsRatingConroller;
 use App\Http\Controllers\API\ProductsDiscountConroller;
 use App\Http\Controllers\API\SearchConroller;
 use App\Http\Controllers\API\OffersConroller;
+use AApp\Http\Resources\ProductDetailsController;
+use App\Http\Controllers\API\ShoppingCartController;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -25,3 +27,14 @@ Route::group(['middleware' => ['api']], function(){
    
  Route::post('search', 'App\Http\Controllers\API\SearchConroller@search');
 });
+
+Route::apiResource('productdetails', App\Http\Controllers\API\ProductDetailsController::class);
+Route::apiResource('shoppingcart',App\Http\Controllers\API\ShoppingCartController::class);
+
+
+
+// Route::group(['middleware' => ['api']], function(){
+   
+//     Route::delete('remove', 'App\Http\Controllers\API\ShoppingCartController@destroy');
+//    });
+   
