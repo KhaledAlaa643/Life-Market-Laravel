@@ -31,8 +31,17 @@ class ProductsDiscountConroller extends Controller
     public function show(string $id)
     {
         $discount = ProuductsDiscount::where('prd_id',$id)->get("discount");
+        
+        if (count ($discount)!=0    )
+        {
+            return $discount[0]["discount"];
+
+        }
+        else
+        {
+            return[];
+        }
        
-        return $discount[0]["discount"];
     }
 
     /**

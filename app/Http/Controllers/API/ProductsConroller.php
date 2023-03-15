@@ -13,12 +13,17 @@ class ProductsConroller extends Controller
     public function updateproduct(string $id)  
     {
         $product=Products::find($id);
-        
+        if ($product)
+        {
         $product["selling_count"]+=1;
         $product["quantity"]-=1;
         $product->save();
         return $product;
-        
+        }
+        else
+        {
+            return [];
+        }
     }
 
 //update rate of product based on product id from prd rate table

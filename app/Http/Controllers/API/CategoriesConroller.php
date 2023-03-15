@@ -16,24 +16,28 @@ class CategoriesConroller extends Controller
 
     public function getproducts (string $id)   //get products by cat id
     {
+
         $arr[]=[];
         $i=0;
         $subcat_ids=SubCategories::where('cat_id',$id)->get("id");
         if (count($subcat_ids)!=0)
         {
+         $product=Products::all();
+
          foreach ($subcat_ids as $ids )
          {
-            $product=Products::where('sub_cat_id',$ids["id"])->get();
-            if (count ($product)!=0)
+            foreach ($product as $prd)
             {
-            $arr[$i]=$product[0];
-            $i++;
+                if ($prd["sub_cat_id"]==$ids["id"])
+                {
+                    $arr[$i]=$prd;
+                    $i++;
+                }
             }
-         }   
-
+           
+         }
         }
-        
-        return $arr;
+        return $arr;   
     }
 
     public function index()
