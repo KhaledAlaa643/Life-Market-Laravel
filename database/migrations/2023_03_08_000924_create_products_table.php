@@ -15,10 +15,13 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->text('description');
+            $table->double('price_before_discount', 15, 2)->nullable();
             $table->double('price', 15, 2);
             $table->string('brand');
             $table->integer('quantity');
             $table->string('photo');
+            $table->integer('prd_rating');   
+            $table->integer('selling_count');   
             $table->timestamps();
         });
     }

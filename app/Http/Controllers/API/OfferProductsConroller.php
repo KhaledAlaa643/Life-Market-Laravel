@@ -4,16 +4,17 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use  App\Models\ProductsRating;
-class ProductsRatingConroller extends Controller
+use App\Models\OfferProducts;
+use App\Models\Products;
+
+class OfferProductsConroller extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $rat=ProductsRating::all("star");
-        return $rat;
+        //
     }
 
     /**
@@ -27,25 +28,27 @@ class ProductsRatingConroller extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
-    {
-        $x = ProductsRating::where('prd_id',$id)->get("star");
-        $sum=0;
+    public function show(string $id)  //get products where offer id = prd_id
+    {   
+        $arr[]=[];
         $i=0;
-        foreach($x as $y ){
-           
-            $sum+=$y["star"];
-            $i++;
-        }
-        if ($i!=0)
-        {
-            return $sum/$i;
+        //get ids of offer products 
+        $offer_products_id=OfferProducts::where('offer_id',$id)->get("prd_id");
 
-        }
-        else
+        if (count($offer_products_id)!=0)
         {
-            return "no reviews";
+           foreach($offer_products_id as $prd)
+           {
+            $product=Products::where('id',$prd["prd_id"])->get();
+            if (count ($product)!=0)
+                 { $arr[$i]= $product[0];
+                    $i++;
+                 }
+
+           }
         }
+        
+        return $arr;
     }
 
     /**
