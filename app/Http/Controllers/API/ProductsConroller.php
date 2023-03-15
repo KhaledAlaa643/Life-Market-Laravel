@@ -100,6 +100,11 @@ class ProductsConroller extends Controller
     }
 
 
+
+
+    
+
+
     public function index()
     {
         $x=Products::all();

@@ -34,8 +34,9 @@ Route::group(['middleware' => ['api']], function(){
     Route::get('category/products/{num}', 'App\Http\Controllers\API\CategoriesConroller@getproducts');
    });
 
-   Route::group(['middleware' => ['api']], function(){              
+
    
+Route::group(['middleware' => ['api']], function(){              
     //update product quantity& selling count by prod id 
     Route::put('update/products/{num}', 'App\Http\Controllers\API\ProductsConroller@updateproduct');
      //update rate of product based on product id from prd rate table
@@ -45,4 +46,5 @@ Route::group(['middleware' => ['api']], function(){
     //get top selling products
     Route::get('topselling/products', 'App\Http\Controllers\API\ProductsConroller@top_selling_products');
 
-   });   
+   });
+   

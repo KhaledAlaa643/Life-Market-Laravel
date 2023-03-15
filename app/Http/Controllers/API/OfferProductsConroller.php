@@ -28,7 +28,9 @@ class OfferProductsConroller extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)  //get products where offer id = prd_id
+
+    //get products where offer id = prd_id 
+    public function show(string $id)  
     {   
         $arr[]=[];
         $i=0;
