@@ -19,5 +19,6 @@ Route::post('/register','App\Http\Controllers\AuthController@register');
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/logout','App\Http\Controllers\AuthController@logout');
     Route::resource('/products','App\Http\Controllers\AuthController');
+
     Route::get('/user/{id}','App\Http\Controllers\AuthController@logout');
 });

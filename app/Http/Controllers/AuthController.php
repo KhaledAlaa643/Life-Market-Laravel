@@ -35,7 +35,7 @@ class AuthController extends Controller
             'phone' => ['required'],
             'type' => [
                 'required',
-                
+
             ],
             'email' => [
                 'required',
@@ -65,9 +65,17 @@ class AuthController extends Controller
 
 
     }
-    public function logout()
+    public function logout(Request $request)
     {
-        return 'hi';
+        // $user = Auth::user();
+        // $user->currentAccessToken()->delete();
+        // return $user;
+        Auth::user()->tokens->each(function($token, $key) {
+            $token->delete();
+        });
+
+        return response()->json('Successfully logged out');
     }
+
 
 }
