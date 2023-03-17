@@ -19,10 +19,11 @@ class AuthController extends Controller
         {
                   $user=User::where('email',$request->email)->first();
           $token= Auth::user()->createToken('nene');
-          return ['token' => $token->plainTextToken, 'user'=>$user];
+          return ['token' => $token->plainTextToken, 'user'=>$user
+          ];
         }
         return [
-          "message"=>"wrong email/password"
+          "message"=>"wrong email  or password"
         ];
 
     }
@@ -67,9 +68,7 @@ class AuthController extends Controller
     }
     public function logout(Request $request)
     {
-        // $user = Auth::user();
-        // $user->currentAccessToken()->delete();
-        // return $user;
+
         Auth::user()->tokens->each(function($token, $key) {
             $token->delete();
         });
