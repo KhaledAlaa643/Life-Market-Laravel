@@ -25,7 +25,7 @@ Route::apiResource('discount',ProductsDiscountConroller::class);
 Route::apiResource('offers',OffersConroller::class);
 Route::apiResource('offers_products',OfferProductsConroller::class);
 Route::apiResource('favourite_item',FavouriteItemConroller::class);
-Route::apiResource('about_us',ContactUsConroller::class);
+Route::apiResource('contact_us',ContactUsConroller::class);
 
 
 Route::group(['middleware' => ['api']], function(){
