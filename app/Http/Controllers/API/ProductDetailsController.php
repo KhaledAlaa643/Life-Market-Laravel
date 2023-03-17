@@ -60,7 +60,7 @@ class ProductDetailsController extends Controller
     // return $asd;
 
     // return new ProductsDetailsResource( $details);
-        return  $details;
+        return  [$details];
 
     }
 
