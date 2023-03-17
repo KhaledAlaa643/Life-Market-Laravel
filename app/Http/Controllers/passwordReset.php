@@ -16,7 +16,6 @@ class passwordReset extends Controller
 if (!$this->validateEmail($request->email)){
 return $this->failedResponse();
 }else {
-    // $email=  data_get($request, 'email');
    $this->send($request->email);
 return response()->json(['nene'=>$request->email]);
 
