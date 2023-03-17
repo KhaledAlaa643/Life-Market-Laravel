@@ -124,7 +124,7 @@ class ProductsConroller extends Controller
      */
     public function show(string $id)
     {
-        //
+        
     }
 
     /**

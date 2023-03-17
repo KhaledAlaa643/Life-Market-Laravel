@@ -9,8 +9,12 @@ use App\Http\Controllers\API\ProductsRatingConroller;
 use App\Http\Controllers\API\ProductsDiscountConroller;
 use App\Http\Controllers\API\SearchConroller;
 use App\Http\Controllers\API\OffersConroller;
+use AApp\Http\Resources\ProductDetailsController;
+use App\Http\Controllers\API\ShoppingCartController;
 use App\Http\Controllers\API\OfferProductsConroller;
 use App\Http\Controllers\API\FavouriteItemConroller;
+use App\Http\Controllers\API\GallreyPhotoController;
+use App\Http\Controllers\API\ReviewProductController;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -48,5 +52,17 @@ Route::group(['middleware' => ['api']], function(){
     //get top selling products
     Route::get('topselling/products', 'App\Http\Controllers\API\ProductsConroller@top_selling_products');
 
+   });
+
+Route::apiResource('productdetails', App\Http\Controllers\API\ProductDetailsController::class);
+Route::apiResource('shoppingcart',App\Http\Controllers\API\ShoppingCartController::class);
+Route::group(['middleware' => ['api']], function(){
+
+    Route::get('gallrey/productdetails/{id}', 'App\Http\Controllers\API\GallreyPhotoController@getgallery');
+   });
+
+Route::group(['middleware' => ['api']], function(){
+   
+    Route::get('review/productdetails/{id}', 'App\Http\Controllers\API\ReviewProductController@getRating');
    });
    
