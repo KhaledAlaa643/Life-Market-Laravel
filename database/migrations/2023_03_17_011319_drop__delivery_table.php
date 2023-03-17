@@ -11,12 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('order', function (Blueprint $table) {
-            $table->id();
-            $table->string('status');
-            $table->double('total', 15, 2);
-            $table->timestamps();
-        });
+        Schema::dropIfExists('delivery');
+
     }
 
     /**
@@ -24,6 +20,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('order');
+        //
     }
 };
