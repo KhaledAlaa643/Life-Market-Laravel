@@ -8,13 +8,13 @@ use  App\Models\Products;
 use  App\Models\SubCategories;
 class SearchConroller extends Controller
 {
-    public function search (Request $request){
+    public function search ($request){
         $arr[]=[];
         $i=0;
 
-        $sub_cat=SubCategories::where('name','LIKE', "%{$request->name}%")->get("id");
-        $product=Products::where('name','LIKE', "%{$request->name}%")->get();
-        $brand=Products::where('brand','LIKE', "%{$request->name}%")->get();
+        $sub_cat=SubCategories::where('name','LIKE', "%{$request}%")->get("id");
+        $product=Products::where('name','LIKE', "%{$request}%")->get();
+        $brand=Products::where('brand','LIKE', "%{$request}%")->get();
 
        
         foreach($product as $category)

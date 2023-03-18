@@ -36,7 +36,7 @@ Route::apiResource('contact_us',ContactUsConroller::class);
 
 Route::group(['middleware' => ['api']], function(){
    //search for product using name ,brand ,sub cat
- Route::post('search', 'App\Http\Controllers\API\SearchConroller@search');  
+ Route::get('search/{name}', 'App\Http\Controllers\API\SearchConroller@search');  
 });
 
 Route::group(['middleware' => ['api']], function(){            
