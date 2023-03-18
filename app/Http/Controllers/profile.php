@@ -16,7 +16,7 @@ class profile extends Controller
     public function userData()
     {
         $user_id = Auth::user()->id;
-        $user = DB::table('users')->where('id', $user_id)->get();
+        $user = DB::table('users')->where('id', $user_id)->first();
 
         return $user;
     }

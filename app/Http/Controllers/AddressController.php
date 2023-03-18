@@ -13,7 +13,12 @@ class AddressController extends Controller
     {
         $user_id = Auth::user()->id;
 
-        return DB::table('address')->where('user_id', $user_id)->get();
+        $address= DB::table('address')->where('user_id', $user_id)->get();
+        if((count($address))==0){
+            return response()->json(['error'=>'no address added for this user']);
+        }else{
+            return $address;
+        }
 
     }
     public function createAddress(Request $request){
@@ -49,7 +54,7 @@ class AddressController extends Controller
         ]);
 
        $UpdatedAddress =DB::table('address')->where('user_id', $user_id)->first();
-      
+
         return response()->json(['updated address' => $UpdatedAddress]);
     }
 }
