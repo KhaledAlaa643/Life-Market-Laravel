@@ -5,6 +5,11 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Cart;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
+
+use Illuminate\Support\Facades\DB;
+
 
 
 class CartConroller extends Controller
@@ -14,7 +19,9 @@ class CartConroller extends Controller
      */
     public function index()
     {
-        //
+       
+
+
     }
 
     /**
@@ -22,11 +29,12 @@ class CartConroller extends Controller
      */
     public function store(Request $request)
     {
+        $id = Auth::id();
         $record =new Cart();
         $record->quantity=$request->quantity;
         $record->price=$request->price;
         $record->prd_id=$request->prd_id;
-        $record->user_id=$request->user_id;
+        $record->user_id=$id;
         $record->created_at=now();
         $record->save();
     }

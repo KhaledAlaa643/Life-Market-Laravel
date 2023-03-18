@@ -27,13 +27,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::apiResource('categories',CategoriesConroller::class);
 Route::apiResource('sub_categories',SubCategoriesConroller::class);
 Route::apiResource('products',ProductsConroller::class);
-Route::apiResource('rating',ProductsRatingConroller::class);
+Route::middleware('auth:sanctum')->apiResource('rating',ProductsRatingConroller::class);
 Route::apiResource('discount',ProductsDiscountConroller::class);
 Route::apiResource('offers',OffersConroller::class);
 Route::apiResource('offers_products',OfferProductsConroller::class);
 Route::apiResource('favourite_item',FavouriteItemConroller::class);
 Route::apiResource('contact_us',ContactUsConroller::class);
-Route::apiResource('cart',CartConroller::class);
+Route::middleware('auth:sanctum')->apiResource('cart',CartConroller::class);
 
 
 Route::group(['middleware' => ['api']], function(){

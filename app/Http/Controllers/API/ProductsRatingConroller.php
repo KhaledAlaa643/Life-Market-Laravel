@@ -5,6 +5,9 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use  App\Models\ProductsRating;
+use Illuminate\Support\Facades\Auth;
+
+
 class ProductsRatingConroller extends Controller
 {
     /**
@@ -21,11 +24,12 @@ class ProductsRatingConroller extends Controller
      */
     public function store(Request $request)
     {
+        $id=Auth::id();
         $record =new ProductsRating();
         $record->review=$request->review;
         $record->star=$request->star;
         $record->prd_id=$request->prd_id;
-        $record->user_id=$request->user_id;
+        $record->user_id=$id;
         $record->created_at=now();
         $record->save();
     }
