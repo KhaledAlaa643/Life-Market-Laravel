@@ -15,7 +15,10 @@ class profile extends Controller
 {
     public function userData()
     {
-        return Auth::user()->all();
+        $user_id = Auth::user()->id;
+        $user = DB::table('users')->where('id', $user_id)->get();
+
+        return $user;
     }
     public function updateUserData(Request $request)
     {
