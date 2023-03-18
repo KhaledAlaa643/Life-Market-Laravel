@@ -17,6 +17,7 @@ use App\Http\Controllers\API\FavouriteItemConroller;
 use App\Http\Controllers\API\GallreyPhotoController;
 use App\Http\Controllers\API\ReviewProductController;
 use App\Http\Controllers\API\ContactUsConroller;
+use App\Http\Controllers\API\CartConroller;
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
@@ -32,6 +33,7 @@ Route::apiResource('offers',OffersConroller::class);
 Route::apiResource('offers_products',OfferProductsConroller::class);
 Route::apiResource('favourite_item',FavouriteItemConroller::class);
 Route::apiResource('contact_us',ContactUsConroller::class);
+Route::apiResource('cart',CartConroller::class);
 
 
 Route::group(['middleware' => ['api']], function(){
