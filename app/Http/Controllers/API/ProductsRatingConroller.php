@@ -21,7 +21,13 @@ class ProductsRatingConroller extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $record =new ProductsRating();
+        $record->review=$request->review;
+        $record->star=$request->star;
+        $record->prd_id=$request->prd_id;
+        $record->user_id=$request->user_id;
+        $record->created_at=now();
+        $record->save();
     }
 
     /**
