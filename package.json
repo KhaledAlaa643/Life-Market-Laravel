@@ -8,5 +8,9 @@
         "axios": "^1.1.2",
         "laravel-vite-plugin": "^0.7.2",
         "vite": "^4.0.0"
+    },
+    "dependencies": {
+        "ng-alt-snotify": "^14.2.12",
+        "ng-snotify": "^9.0.1"
     }
 }
