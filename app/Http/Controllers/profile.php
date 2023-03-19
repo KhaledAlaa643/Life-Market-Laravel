@@ -6,6 +6,7 @@ use App\Models\Address;
 use App\Models\AddressModel;
 use App\Models\order;
 use App\Models\User;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -14,7 +15,10 @@ class profile extends Controller
 {
     public function userData()
     {
-        return Auth::user()->all();
+        $user_id = Auth::user()->id;
+        $user = DB::table('users')->where('id', $user_id)->first();
+
+        return $user;
     }
     public function updateUserData(Request $request)
     {
@@ -59,6 +63,19 @@ class profile extends Controller
 
 
     }
+    public function getFavItems()
+    {
+        $user_id = Auth::user()->id;
+        $prd_ids = DB::table('favourite_item')->where('user_id', $user_id)->pluck('prd_id');
+        $fav_items_details = [];
+        for ($i = 0; $i < (count($prd_ids)); $i++) {
+            $fav_items_details[$i] = DB::table('products')->where('id', $prd_ids[$i])->get();
+
+        }
+
+        return $fav_items_details;
+    }
+
 
 
 }

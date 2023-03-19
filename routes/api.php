@@ -39,17 +39,18 @@ Route::middleware('auth:sanctum')->apiResource('cart',CartConroller::class);
 Route::group(['middleware' => ['api']], function(){
    //search for product using name ,brand ,sub cat
  Route::get('search/{name}', 'App\Http\Controllers\API\SearchConroller@search');  
+ Route::post('search', 'App\Http\Controllers\API\SearchConroller@search');
 });
 
-Route::group(['middleware' => ['api']], function(){            
-     //get products by category id 
+Route::group(['middleware' => ['api']], function(){
+     //get products by category id
     Route::get('category/products/{num}', 'App\Http\Controllers\API\CategoriesConroller@getproducts');
    });
 
 
-   
-Route::group(['middleware' => ['api']], function(){              
-    //update product quantity& selling count by prod id 
+
+Route::group(['middleware' => ['api']], function(){
+    //update product quantity& selling count by prod id
     Route::put('update/products/{num}', 'App\Http\Controllers\API\ProductsConroller@updateproduct');
      //update rate of product based on product id from prd rate table
     Route::put('products/rate/{num}', 'App\Http\Controllers\API\ProductsConroller@getrate');
@@ -68,10 +69,10 @@ Route::group(['middleware' => ['api']], function(){
    });
 
 Route::group(['middleware' => ['api']], function(){
-   
+
     Route::get('review/productdetails/{id}', 'App\Http\Controllers\API\ReviewProductController@getRating');
    });
-   
+
 //public routes
 Route::post('/login', 'App\Http\Controllers\AuthController@login');
 Route::post('/register', 'App\Http\Controllers\AuthController@register');
@@ -92,10 +93,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/address/update', 'App\Http\Controllers\AddressController@updateAddress');
     Route::post('/address/create', 'App\Http\Controllers\AddressController@createAddress');
 
-
+    Route::get('/fav-items', 'App\Http\Controllers\profile@getFavItems');
     Route::get('/orders', 'App\Http\Controllers\profile@getOrders');
     Route::get('/topsellings', 'App\Http\Controllers\profile@getTopSelling');
-    Route::get('/saveditems', 'App\Http\Controllers\profile@getSavedItems');
 
     Route::post('/logout', 'App\Http\Controllers\AuthController@logout');
 });
