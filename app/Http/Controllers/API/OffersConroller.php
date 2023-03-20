@@ -13,7 +13,8 @@ class OffersConroller extends Controller
      */
     public function index()
     {
-        //
+        $all_offers=Offers::all();
+        return $all_offers;
     }
 
     /**
