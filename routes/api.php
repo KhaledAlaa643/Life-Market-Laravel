@@ -18,6 +18,8 @@ use App\Http\Controllers\API\GallreyPhotoController;
 use App\Http\Controllers\API\ReviewProductController;
 use App\Http\Controllers\API\ContactUsConroller;
 use App\Http\Controllers\API\CartConroller;
+use App\Http\Controllers\API\OrderConroller;
+use App\Http\Controllers\API\UserConroller;
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
@@ -33,19 +35,11 @@ Route::apiResource('offers',OffersConroller::class);
 Route::apiResource('offers_products',OfferProductsConroller::class);
 Route::apiResource('favourite_item',FavouriteItemConroller::class);
 Route::apiResource('contact_us',ContactUsConroller::class);
+Route::apiResource('order',OrderConroller::class);
 Route::middleware('auth:sanctum')->apiResource('cart',CartConroller::class);
 
 
-Route::group(['middleware' => ['api']], function(){
-   //search for product using name ,brand ,sub cat
- Route::get('search/{name}', 'App\Http\Controllers\API\SearchConroller@search');  
- Route::post('search', 'App\Http\Controllers\API\SearchConroller@search');
-});
 
-Route::group(['middleware' => ['api']], function(){
-     //get products by category id
-    Route::get('category/products/{num}', 'App\Http\Controllers\API\CategoriesConroller@getproducts');
-   });
 
 
 
@@ -58,8 +52,18 @@ Route::group(['middleware' => ['api']], function(){
     Route::get('toprating/products', 'App\Http\Controllers\API\ProductsConroller@top_rating_products');
     //get top selling products
     Route::get('topselling/products', 'App\Http\Controllers\API\ProductsConroller@top_selling_products');
+    //get count of orders
+    Route::get('orders/count', 'App\Http\Controllers\API\OrderConroller@getordercount');
+   //search for product using name ,brand ,sub cat
+    Route::get('search/{name}', 'App\Http\Controllers\API\SearchConroller@search');
+     //get products by category id
+    Route::get('category/products/{num}', 'App\Http\Controllers\API\CategoriesConroller@getproducts');
+    //get users count
+    Route::get('users/count', 'App\Http\Controllers\API\UserConroller@getuserscount');
+
 
    });
+
 
 Route::apiResource('productdetails', App\Http\Controllers\API\ProductDetailsController::class);
 Route::apiResource('shoppingcart',App\Http\Controllers\API\ShoppingCartController::class);
