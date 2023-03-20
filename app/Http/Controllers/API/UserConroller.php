@@ -13,7 +13,7 @@ class UserConroller extends Controller
     //get users count
     public function getuserscount()
     {
-        $users=User::all();
+        $users=User::where('type', 'user')->get();
         return count($users);
     }
 
