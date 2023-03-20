@@ -38,7 +38,7 @@ Route::middleware('auth:sanctum')->apiResource('cart',CartConroller::class);
 
 Route::group(['middleware' => ['api']], function(){
    //search for product using name ,brand ,sub cat
- Route::get('search/{name}', 'App\Http\Controllers\API\SearchConroller@search');  
+ Route::get('search/{name}', 'App\Http\Controllers\API\SearchConroller@search');
  Route::post('search', 'App\Http\Controllers\API\SearchConroller@search');
 });
 
@@ -94,7 +94,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/address/create', 'App\Http\Controllers\AddressController@createAddress');
 
     Route::get('/fav-items', 'App\Http\Controllers\profile@getFavItems');
-    Route::get('/orders', 'App\Http\Controllers\profile@getOrders');
+    Route::post('/fav-item/delete', 'App\Http\Controllers\profile@deleteFaveitem');
+    Route::get('/orders', 'App\Http\Controllers\profile@getOrdersDetails');
+    Route::get('/orders/total', 'App\Http\Controllers\profile@getOrdersTotal');
     Route::get('/topsellings', 'App\Http\Controllers\profile@getTopSelling');
 
     Route::post('/logout', 'App\Http\Controllers\AuthController@logout');

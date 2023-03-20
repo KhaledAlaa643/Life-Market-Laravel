@@ -13,9 +13,10 @@ class AddressController extends Controller
     {
         $user_id = Auth::user()->id;
 
-        $address= DB::table('address')->where('user_id', $user_id)->get();
-        if((count($address))==0){
-            return response()->json(['error'=>'no address added for this user']);
+        $address= DB::table('address')->where('user_id', $user_id)->first();
+        if(!$address){
+             return response()->json(['error'=>'no address added for this user']);
+           
         }else{
             return $address;
         }
