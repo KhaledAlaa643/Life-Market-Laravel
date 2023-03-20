@@ -14,7 +14,8 @@ class ContactUsConroller extends Controller
      */
     public function index()
     {
-        //
+        $contacts=Contact_Us::all();
+        return $contacts;
     }
 
     /**

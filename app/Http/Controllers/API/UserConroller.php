@@ -10,6 +10,7 @@ use App\Models\User;
 class UserConroller extends Controller
 {
 
+    //get users count
     public function getuserscount()
     {
         $users=User::all();

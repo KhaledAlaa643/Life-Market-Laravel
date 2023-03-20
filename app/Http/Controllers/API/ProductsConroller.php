@@ -100,7 +100,12 @@ class ProductsConroller extends Controller
     }
 
 
-
+    //get products count
+    public function getproductscount()
+    {
+        $products=Products::all();
+        return count($products);
+    }
 
     
 

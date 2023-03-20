@@ -10,6 +10,7 @@ use App\Models\order;
 class OrderConroller extends Controller
 {
 
+    //get orders count
     public function getordercount()
     {
         $orders=order::all();
