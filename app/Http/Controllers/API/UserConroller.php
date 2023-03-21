@@ -4,18 +4,25 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Contact_Us;
+use App\Models\User;
 
 
-class ContactUsConroller extends Controller
+class UserConroller extends Controller
 {
+
+    //get users count
+    public function getuserscount()
+    {
+        $users=User::where('type', 'user')->get();
+        return count($users);
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $contacts=Contact_Us::all();
-        return $contacts;
+        //
     }
 
     /**
@@ -23,15 +30,7 @@ class ContactUsConroller extends Controller
      */
     public function store(Request $request)
     {
-        $record =new Contact_Us();
-        $record->user_name=$request->user_name;
-        $record->email=$request->email;
-        $record->comment=$request->comment;
-        $record->created_at=now();
-
-        $record->save();
-
-
+        //
     }
 
     /**
