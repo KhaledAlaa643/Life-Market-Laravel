@@ -64,8 +64,8 @@ Route::group(['middleware' => ['api']], function(){
     Route::get('product/count', 'App\Http\Controllers\API\ProductsConroller@getproductscount');
 
     Route::get('offers_products/select/{id}', 'App\Http\Controllers\API\OfferProductsConroller@add_offer_products');
-
-    Route::get('offers_products/select/{id}', 'App\Http\Controllers\API\OfferProductsConroller@add_offer_products');
+    //calc_total_income
+    Route::get('total_income', 'App\Http\Controllers\API\OrderConroller@calc_total_income');
 
    });
 

@@ -10,6 +10,17 @@ use App\Models\order;
 class OrderConroller extends Controller
 {
 
+    //calc_total_income
+    public function calc_total_income()
+    {
+        $income=order::all("total");
+        $total=0;
+        foreach ($income as $number)
+        {
+            $total+=$number["total"];
+        }
+        return $total;
+    }
     //get orders count
     public function getordercount()
     {
