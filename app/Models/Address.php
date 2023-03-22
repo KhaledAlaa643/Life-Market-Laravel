@@ -13,7 +13,6 @@ class Address extends Model
     public function user (){
 
         return $this->belongsTo(User::class);
-
 }
 protected $fillable = ['street','city','governorate','zip_code','user_id'];
 }
