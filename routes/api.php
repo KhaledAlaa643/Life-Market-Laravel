@@ -66,6 +66,8 @@ Route::group(['middleware' => ['api']], function(){
     Route::get('offers_products/select/{id}', 'App\Http\Controllers\API\OfferProductsConroller@add_offer_products');
     //calc_total_income
     Route::get('total_income', 'App\Http\Controllers\API\OrderConroller@calc_total_income');
+    //get offer by id
+    Route::get('offer/{id}', 'App\Http\Controllers\API\OffersConroller@get_offer_by_id');
 
    });
 

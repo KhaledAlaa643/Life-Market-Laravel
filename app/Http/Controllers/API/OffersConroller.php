@@ -10,6 +10,7 @@ use App\Models\Products;
 
 class OffersConroller extends Controller
 {
+
     /** 
      * Display a listing of the resource.
      */
@@ -57,6 +58,7 @@ class OffersConroller extends Controller
     public function destroy(string $id)
     {
         $offer=Offers::find($id);
+
         $arr[]=[];
         $i=0;
         //get ids of offer products 
@@ -79,7 +81,7 @@ class OffersConroller extends Controller
             {
             foreach ($arr as $pro)
             {
-                return $arr[0];
+            echo $pro;
             $pro["price"]=$pro["price_before_discount"];
             $pro["price_before_discount"]=0;
             
@@ -90,8 +92,16 @@ class OffersConroller extends Controller
                 $pro->save();
 
             }
-        }
-            $offer->delete();
+          }
+
+          $offer->delete();
+
+    }
+
+    public function get_offer_by_id (string $id)
+    {
+        $offer=Offers::find($id);
+        return $offer;
 
     }
 }
