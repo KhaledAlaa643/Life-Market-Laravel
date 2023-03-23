@@ -52,7 +52,7 @@ class CustomerController extends Controller
     $customer->phone=$request->phone;
     $customer->email=$request->email;
     $customer->password=$request->password;
-    $customer->type=$request->type;
+    $customer->type='user';
     $customer->created_at=now();
     $customer->save();
    

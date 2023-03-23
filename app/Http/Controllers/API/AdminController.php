@@ -52,7 +52,7 @@ class AdminController extends Controller
        $admin->phone=$request->phone;
        $admin->email=$request->email;
        $admin->password=$request->password;
-       $admin->type=$request->type;
+       $admin->type='admin';
        $admin->created_at=now();
        $admin->save();
    

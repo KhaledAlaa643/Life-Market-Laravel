@@ -29,35 +29,34 @@ class Check_outController extends Controller
             return $status;
       }
 
-      public function createOrder( ){
+      public function createOrder(Request $request ){
         
             // $user_id=Auth::user()->id;
 
-            $myOrder[]=[];
+            $cart[]=[];
             $cart=Cart::where('user_id',28)->get();
 
-            // return $cart;
+            // for( $i=0; $i <= count($cart); $i++ ){
 
-            for($i=0; $i <= count($cart); $i++ ){
+            // }
+           
+            foreach ($cart as $myOrder) {
+              
+                 // $myOrder[$i]=DB::table('order_items')
+                // ->insert('quantity','total_price','prd_id','order_id')
+                // ->value(4,2000,4,4)
 
-                $quantity;
-                $total_price;
-                $prd_id;
-                $order_id;
                 $myOrder= new order_items();
               
-                $myOrder[$i]=DB::table('order_items')
-                ->insert('quantity','total_price','prd_id','order_id')
-                ->value(4,2000,4,4)
-
-                
-                ->get();
-
-
-
-                return $myOrder;
-
+                $myOrder->quantity=$request->quantity;
+                $myOrder->total_price=$request->total_price;
+                $myOrder->prd_id=$request->prd_id;
+                $myOrder->order_id=$request->order_id;
+                $myOrder->created_at=now();
+                $myOrder->save();
+        
             }
+            return $myOrder;
       }
 
      

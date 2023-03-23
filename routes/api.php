@@ -70,7 +70,7 @@ Route::apiResource('cart',App\Http\Controllers\API\ShoppingCartController::class
 // get update quantity
 Route::group(['middleware' => ['api','auth:sanctum']], function(){
 
-    Route::put('increment/shoppingcart/{id}', 'App\Http\Controllers\API\ShoppingCartController@incrementQuant');
+    Route::get('increment/shoppingcart/{id}', 'App\Http\Controllers\API\ShoppingCartController@incrementQuant');
   
     Route::get('decrement/shoppingcart/{id}', 'App\Http\Controllers\API\ShoppingCartController@decrementQuant');
  
@@ -81,7 +81,7 @@ Route::group(['middleware' => ['api','auth:sanctum']], function(){
 Route::get('status/checkout','App\Http\Controllers\API\Check_outController@getStatus');
 Route::get('governorate/checkout/{governorate}', 'App\Http\Controllers\API\Check_outController@getGovernorate');
   
-Route::get('orders/checkout', 'App\Http\Controllers\API\Check_outController@createOrder');
+Route::post('orders/checkout', 'App\Http\Controllers\API\Check_outController@createOrder');
   
 Route::post('statusorder/checkout', 'App\Http\Controllers\API\Check_outController@store');
   
