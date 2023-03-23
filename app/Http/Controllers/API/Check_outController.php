@@ -24,28 +24,40 @@ class Check_outController extends Controller
 
       public function getStatus(){
 
-            // $user_id=Auth::user()->id;
-            $status=order::where('user_id',4)->get();
+            $user_id=Auth::user()->id;
+            $status=order::where('user_id',$user_id)->get();
             return $status;
       }
 
-      public function getOrders( ){
+      public function createOrder( ){
         
             // $user_id=Auth::user()->id;
-            $c=DB::table('order')
-            ->join('users','users.id','=','order.user_id')
-            ->join('delivery_price','delivery_price.id','=','order.delivery_price_id')
-            ->where('order.user_id','=',4)
-            ->insert('order.status','=','processing',
-            'order.total',
-            'order.user_id',
-            'delivery_price.price',
-            'delivery_price.time'
-            )
-            ->get();
 
-            return $c;
-        
+            $myOrder[]=[];
+            $cart=Cart::where('user_id',28)->get();
+
+            // return $cart;
+
+            for($i=0; $i <= count($cart); $i++ ){
+
+                $quantity;
+                $total_price;
+                $prd_id;
+                $order_id;
+                $myOrder= new order_items();
+              
+                $myOrder[$i]=DB::table('order_items')
+                ->insert('quantity','total_price','prd_id','order_id')
+                ->value(4,2000,4,4)
+
+                
+                ->get();
+
+
+
+                return $myOrder;
+
+            }
       }
 
      
@@ -62,7 +74,16 @@ class Check_outController extends Controller
      */
     public function store(Request $request)
     {
-        
+        // $user_id=Auth::user()->id;
+        $statusOrder=new order();
+        $statusOrder->status='processing';
+        $statusOrder->total=$request->total;
+        $statusOrder->user_id=$request->user_id;
+        $statusOrder->delivery_price_id=$request->delivery_price_id;
+        $statusOrder->created_at=now();
+        $statusOrder->save();
+        return $statusOrder;
+       
     }
 
     /**

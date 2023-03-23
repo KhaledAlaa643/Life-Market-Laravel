@@ -19,18 +19,25 @@ class ShoppingCartController extends Controller
 
    
 
-     public function addQuantity( string $prd_id){
-        $user_id=Auth::user()->id;
-      
-          $x=DB::table('cart')->where('user_id',$user_id )->where('prd_id', $prd_id)->get('quantity');
-          
-          $y=DB::table('products')->where('id', $prd_id)->get('quantity');
+     public function incrementQuant( string $prd_id){
+
+         $user_id=Auth::user()->id;
+          $x=DB::table('cart')
+          ->where('user_id',$user_id )
+          ->where('prd_id', $prd_id)
+          ->get('quantity');
+
+          $y=DB::table('products')
+          ->where('id', $prd_id)
+          ->get('quantity');
 
           if( $y[0]->quantity > $x[0]->quantity){
-
-            //   $x->increment('quantity');
-            $x=DB::table('cart')->where('user_id',$user_id )->where('prd_id', $prd_id)->increment('quantity');
-            return 'add scce';
+                
+                $x=DB::table('cart')
+                ->where('user_id',$user_id )
+                ->where('prd_id', $prd_id)
+                ->increment('quantity');
+                return 'Quantity increased successfully';
 
           }else{
             return ' out of stock';
@@ -38,16 +45,23 @@ class ShoppingCartController extends Controller
     
      }
      public function decrementQuant( string $prd_id){
-        $user_id=Auth::user()->id;
-      
-          $x=DB::table('cart')->where('user_id',$user_id )->where('prd_id', $prd_id)->get('quantity');
-          
-          $y=DB::table('products')->where('id', $prd_id)->get('quantity');
+
+          $user_id=Auth::user()->id;
+          $x=DB::table('cart')
+          ->where('user_id',$user_id )
+          ->where('prd_id', $prd_id)
+          ->get('quantity');
+          $y=DB::table('products')
+          ->where('id', $prd_id)
+          ->get('quantity');
 
           if( $x[0]->quantity > 0){
 
-            $x=DB::table('cart')->where('user_id',$user_id )->where('prd_id', $prd_id)->decrement('quantity');
-            return 'mains scce';
+            $x=DB::table('cart')
+            ->where('user_id',$user_id )
+            ->where('prd_id', $prd_id)
+            ->decrement('quantity');
+            return 'Quantity decreased successfully';
 
           }else{
             return ' out of stock';
@@ -61,7 +75,7 @@ class ShoppingCartController extends Controller
     {
         $user_id=Auth::user()->id;
       
-          $x=DB::table('cart')->where('user_id', 28 )->get();
+          $x=DB::table('cart')->where('user_id', $user_id)->get();
 
           return $x;
           
@@ -79,13 +93,14 @@ class ShoppingCartController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $prd_id)
     {
         $user_id =Auth::user()->id;
         $x= DB::table('cart')
         ->join('users','users.id','=','cart.user_id')
         ->join('products','products.id','=','cart.prd_id')
         ->where('cart.user_id','=',$user_id)
+        ->where('cart.prd_id','=',$prd_id)
         ->select('cart.*', 
         'products.name',
         'products.description',
@@ -116,7 +131,7 @@ class ShoppingCartController extends Controller
         
         $id=Cart::where('id',$id)->delete();
         
-        return 'sccsess delete';
+        return 'succsess delete';
 
        
        

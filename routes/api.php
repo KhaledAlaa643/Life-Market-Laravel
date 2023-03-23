@@ -66,26 +66,24 @@ Route::apiResource('admin',App\Http\Controllers\API\AdminController::class);
 Route::apiResource('customer',App\Http\Controllers\API\CustomerController::class);
 Route::apiResource('delivery',App\Http\Controllers\API\DeliveryController::class);
 //get product in cart
-Route::apiResource('deletefromcart',App\Http\Controllers\API\ShoppingCartController::class);
+Route::apiResource('cart',App\Http\Controllers\API\ShoppingCartController::class);
 // get update quantity
 Route::group(['middleware' => ['api','auth:sanctum']], function(){
 
-    Route::get('update/shoppingcart/{id}', 'App\Http\Controllers\API\ShoppingCartController@addQuantity');
- 
-    Route::put('increment/shoppingcart/{id}', 'App\Http\Controllers\API\ShoppingCartController@incrementQuan');
+    Route::put('increment/shoppingcart/{id}', 'App\Http\Controllers\API\ShoppingCartController@incrementQuant');
   
     Route::get('decrement/shoppingcart/{id}', 'App\Http\Controllers\API\ShoppingCartController@decrementQuant');
  
-    Route::get('getcartprd/', 'App\Http\Controllers\API\ShoppingCartController@index');
+    Route::get('getcartprd', 'App\Http\Controllers\API\ShoppingCartController@index');
  
    });
-// Route::group(['middleware' => ['api','auth:sanctum']], function(){
-   
-//     });
-    Route::get('status/checkout','App\Http\Controllers\API\Check_outController@getStatus');
-    Route::get('governorate/checkout/{governorate}', 'App\Http\Controllers\API\Check_outController@getGovernorate');
+
+Route::get('status/checkout','App\Http\Controllers\API\Check_outController@getStatus');
+Route::get('governorate/checkout/{governorate}', 'App\Http\Controllers\API\Check_outController@getGovernorate');
   
-    Route::get('orders/checkout/{id}', 'App\Http\Controllers\API\Check_outController@getOrders');
+Route::get('orders/checkout', 'App\Http\Controllers\API\Check_outController@createOrder');
+  
+Route::post('statusorder/checkout', 'App\Http\Controllers\API\Check_outController@store');
   
 
 
