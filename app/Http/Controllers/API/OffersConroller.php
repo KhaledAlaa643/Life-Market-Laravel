@@ -49,7 +49,13 @@ class OffersConroller extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $offer=Offers::find($id);
+        $offer->offer_title=$request->offer_title;
+        $offer->discont_percent=$request->discont_percent;
+        $offer->type=$request->type;
+
+        $offer->save();
+        
     }
 
     /**
