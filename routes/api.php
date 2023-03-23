@@ -115,3 +115,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::post('/logout', 'App\Http\Controllers\AuthController@logout');
 });
+//////Order Dashboard routes/////////
+
+Route::get('/orders', 'App\Http\Controllers\API\OrderController@order');
+Route::put('/orders/{order_id}', 'App\Http\Controllers\API\OrderController@update');
+Route::get('/orders/{order_id}','App\Http\Controllers\API\OrderController@orderview');
