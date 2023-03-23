@@ -5,6 +5,8 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Offers;
+use App\Models\OfferProducts;
+use App\Models\Products;
 
 class OffersConroller extends Controller
 {
@@ -54,6 +56,42 @@ class OffersConroller extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $offer=Offers::find($id);
+        $arr[]=[];
+        $i=0;
+        //get ids of offer products 
+        $offer_products_id=OfferProducts::where('offer_id',$id)->get("prd_id");
+
+        if ($offer_products_id)
+        {
+           foreach($offer_products_id as $prd)                             //get all products that have the same product offer
+           {
+            $product=Products::where('id',$prd["prd_id"])->get();
+            if (count ($product)!=0)
+                 { $arr[$i]= $product[0];
+                    $i++;
+                 }
+
+           }
+        }
+        // ////////////////////////////////////////////////////////////////////////////
+            if ($arr[0]!=[])
+            {
+            foreach ($arr as $pro)
+            {
+                return $arr[0];
+            $pro["price"]=$pro["price_before_discount"];
+            $pro["price_before_discount"]=0;
+            
+            }
+            
+            foreach ($arr as $pro)
+            {
+                $pro->save();
+
+            }
+        }
+            $offer->delete();
+
     }
 }
