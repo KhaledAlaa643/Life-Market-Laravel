@@ -13,7 +13,8 @@ class OffersConroller extends Controller
      */
     public function index()
     {
-        //
+        $all_offers=Offers::all();
+        return $all_offers;
     }
 
     /**
@@ -21,7 +22,14 @@ class OffersConroller extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $record =new Offers();
+        $record->offer_title=$request->offer_title;
+        $record->type=$request->type;
+        $record->discont_percent=$request->discont_percent;
+        $record->photo=$request->photo;
+        $record->created_at=now();
+
+        $record->save();
     }
 
     /**
