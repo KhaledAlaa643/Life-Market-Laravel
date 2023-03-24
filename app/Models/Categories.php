@@ -9,9 +9,12 @@ use App\Models\SubCategories;
 class Categories extends Model
 {
     use HasFactory;
+    protected $table="categories";
 
     public  function SubCategories (){
 
         return $this->hasMany(SubCategories::class);
     }
+    protected $fillable = ['name','description','photo'];
+
 }

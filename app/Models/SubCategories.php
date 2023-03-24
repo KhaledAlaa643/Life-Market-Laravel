@@ -12,7 +12,7 @@ class SubCategories extends Model
 {
     use HasFactory;
     protected $table="sub_categories";
-    
+
     public function Categories (){
 
         return $this->belongsTo(SubCategories::class);
@@ -22,4 +22,6 @@ class SubCategories extends Model
     {
       return $this->hasMany(Products::class);
     }
+    protected $fillable = ['name','description','cat_id'];
+
 }

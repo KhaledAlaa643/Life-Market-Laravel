@@ -100,4 +100,29 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/topsellings', 'App\Http\Controllers\profile@getTopSelling');
 
     Route::post('/logout', 'App\Http\Controllers\AuthController@logout');
+
+
+    //Dashboard Routes
+    //category
+    Route::post('/dashboard/create/category','App\Http\Controllers\CategoryManage@createCategory');
+    Route::delete('/dashboard/products/delete/category/{id}','App\Http\Controllers\CategoryManage@deleteCategory');
+    Route::post('/dashboard/products/update/category','App\Http\Controllers\CategoryManage@updateCategory');
+    Route::get('/dashboard/products/all-categories','App\Http\Controllers\CategoryManage@getcategories');
+    Route::get('/dashboard/category/{id}','App\Http\Controllers\CategoryManage@getCategoryById');
+
+    //sub-category
+    Route::post('/dashboard/create/sub-category','App\Http\Controllers\SubCategoryManage@createSubCategory');
+    Route::delete('/dashboard/products/delete/sub-category/{id}','App\Http\Controllers\SubCategoryManage@deleteSubCategory');
+    Route::post('/dashboard/products/update/sub-category','App\Http\Controllers\SubCategoryManage@updateSubCategory');
+    Route::get('/dashboard/products/all-sub-categories','App\Http\Controllers\SubCategoryManage@getSubCategories');
+    Route::get('/dashboard/sub-category/{id}','App\Http\Controllers\SubCategoryManage@getSubCategoryById');
+    //product
+    Route::post('/dashboard/products/create/product','App\Http\Controllers\ProductsManagementController@createProduct');
+    Route::post('/dashboard/products/update/product','App\Http\Controllers\ProductsManagementController@updateProduct');
+    Route::get('/dashboard/product/{id}','App\Http\Controllers\ProductsManagementController@getProductById');
+    Route::delete('/dashboard/products/delete/product/{id}','App\Http\Controllers\ProductsManagementController@deleteProduct');
+    Route::get('/dashboard/products/by-sub_category/{Subcat}','App\Http\Controllers\ProductsManagementController@getProductsBySubCat');
+    Route::get('/dashboard/products/all-products','App\Http\Controllers\ProductsManagementController@getAllProducts');
+
+
 });

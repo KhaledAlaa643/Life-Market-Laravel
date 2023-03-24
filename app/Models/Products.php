@@ -11,7 +11,7 @@ use App\Models\product_photos;
 
 
 class Products extends Model
-{
+{protected $table="products";
     use HasFactory;
 
     public function ProductsRating()
@@ -30,4 +30,17 @@ class Products extends Model
     {
       return $this->hasMany(product_photos::class);
     }
+    protected $fillable = ['name',
+    'description',
+    'price_before_discount',
+    'price',
+    'brand',
+    'quantity',
+    'photo',
+    'prd_rating',
+    'selling_count',
+    'sub_cat_id',
+    'user_id'];
+
+
 }

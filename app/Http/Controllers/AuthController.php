@@ -21,10 +21,11 @@ class AuthController extends Controller
           $token= Auth::user()->createToken('nene');
           return ['token' => $token->plainTextToken, 'user'=>$user
           ];
-        }
+        }else{
         return [
           "message"=>"wrong email  or password"
         ];
+    }
 
     }
     public function register(Request $request)
