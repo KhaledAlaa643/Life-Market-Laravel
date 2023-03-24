@@ -29,10 +29,23 @@ class OffersConroller extends Controller
         $record->offer_title=$request->offer_title;
         $record->type=$request->type;
         $record->discont_percent=$request->discont_percent;
-        $record->photo=$request->photo;
+        $request->validate([
+            'photo' => 'required|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+        $imageName = time().'.'.$request->photo->extension()    ;
+        $request->photo->move(public_path('storage/images'), $imageName);
+        $record->photo=$imageName;
         $record->created_at=now();
 
         $record->save();
+        // $record =new Offers();
+        // $record->offer_title=$request->offer_title;
+        // $record->type=$request->type;
+        // $record->discont_percent=$request->discont_percent;
+        // $record->photo=$request->photo;
+        // $record->created_at=now();
+
+        // $record->save();
     }
 
     /**
@@ -53,6 +66,7 @@ class OffersConroller extends Controller
         $offer->offer_title=$request->offer_title;
         $offer->discont_percent=$request->discont_percent;
         $offer->type=$request->type;
+
 
         $offer->save();
         
