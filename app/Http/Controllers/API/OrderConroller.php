@@ -27,13 +27,19 @@ class OrderConroller extends Controller
         $orders=order::all();
         return count($orders);
     }
-    /**
-     * Display a listing of the resource.
-     */
+   
+    // get order id and date
+    public function get_orders_id_and_date()
+    {
+        $orders=order::all(["id","created_at"]);
+        return $orders;
+    }
+
+
     public function index()
     {
-        $orders=order::all("id");
-        return count($orders);
+        $orders=order::all();
+        return $orders;
     }
 
     /**

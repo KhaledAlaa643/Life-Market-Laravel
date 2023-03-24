@@ -37,6 +37,7 @@ Route::apiResource('favourite_item',FavouriteItemConroller::class);
 Route::apiResource('contact_us',ContactUsConroller::class);
 Route::apiResource('order',OrderConroller::class);
 Route::middleware('auth:sanctum')->apiResource('cart',CartConroller::class);
+Route::apiResource('users',UserConroller::class);
 
 
 
@@ -68,6 +69,9 @@ Route::group(['middleware' => ['api']], function(){
     Route::get('total_income', 'App\Http\Controllers\API\OrderConroller@calc_total_income');
     //get offer by id
     Route::get('offer/{id}', 'App\Http\Controllers\API\OffersConroller@get_offer_by_id');
+    //get order id and date
+    Route::get('orderss', 'App\Http\Controllers\API\OrderConroller@get_orders_id_and_date');
+
 
    });
 
