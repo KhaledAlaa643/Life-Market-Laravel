@@ -4,25 +4,16 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Database\Eloquent\Model;
-use App\Http\Resources\ProductsDetailsResource;
-use  App\Models\Products;
-use  App\Models\ProductsRating;
-use App\Models\ProuductsDiscount;
-use App\Models\SubCategories;
 use App\Models\delivery_price;
-
-
-
-
-class ProductDetailsController extends Controller
+class DeliveryController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        
+        $delivery=delivery_price::all();
+        return $delivery;
     }
 
     /**
@@ -30,7 +21,12 @@ class ProductDetailsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $delivery= new delivery_price();
+        $delivery->governorate= $request->governorate;
+        $delivery->price=$request->price;
+        $delivery->time=$request->time;
+        $delivery->created_at=now();
+        $delivery->save();
     }
 
     /**
@@ -38,10 +34,8 @@ class ProductDetailsController extends Controller
      */
     public function show(string $id)
     {
-       
-        $details= Products::find($id);
-       
-        return  [$details];
+       $delivery=delivery_price::find($id);
+        return $delivery;
 
     }
 
@@ -50,7 +44,8 @@ class ProductDetailsController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $delivery=delivery_price::find($id)->update($request->all());   
+        return $delivery;
     }
 
     /**
@@ -58,6 +53,7 @@ class ProductDetailsController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $delivery = delivery_price::find($id);
+        $delivery->delete();
     }
 }

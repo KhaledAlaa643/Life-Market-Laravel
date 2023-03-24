@@ -5,6 +5,11 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\order_items;
+use App\Models\Cart;
+use App\Models\User;
+use App\Models\Products;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ShoppingCartController extends Controller
 {
@@ -12,12 +17,68 @@ class ShoppingCartController extends Controller
      * Display a listing of the resource.
      */
 
+   
+
+     public function incrementQuant( string $prd_id){
+
+         $user_id=Auth::user()->id;
+          $x=DB::table('cart')
+          ->where('user_id',$user_id )
+          ->where('prd_id', $prd_id)
+          ->get('quantity');
+
+          $y=DB::table('products')
+          ->where('id', $prd_id)
+          ->get('quantity');
+
+          if( $y[0]->quantity > $x[0]->quantity){
+                
+                $x=DB::table('cart')
+                ->where('user_id',$user_id )
+                ->where('prd_id', $prd_id)
+                ->increment('quantity');
+                return 'Quantity increased successfully';
+
+          }else{
+            return ' out of stock';
+          }
+    
+     }
+     public function decrementQuant( string $prd_id){
+
+          $user_id=Auth::user()->id;
+          $x=DB::table('cart')
+          ->where('user_id',$user_id )
+          ->where('prd_id', $prd_id)
+          ->get('quantity');
+          $y=DB::table('products')
+          ->where('id', $prd_id)
+          ->get('quantity');
+
+          if( $x[0]->quantity > 0){
+
+            $x=DB::table('cart')
+            ->where('user_id',$user_id )
+            ->where('prd_id', $prd_id)
+            ->decrement('quantity');
+            return 'Quantity decreased successfully';
+
+          }else{
+            return ' out of stock';
+          }
+    
+     }
+
+    
 
     public function index()
     {
-        // $cart= order_items::select('quantity','total_price','prd_id','order_id')->get();
-        $cart= order_items::all();
-        return  $cart;
+        $user_id=Auth::user()->id;
+      
+          $x=DB::table('cart')->where('user_id', $user_id)->get();
+
+          return $x;
+          
     }
 
     /**
@@ -25,39 +86,32 @@ class ShoppingCartController extends Controller
      */
     public function store(Request $request)
     {
-        // $addToCart= $request->order_items()->create($request->all());
-        // return $addToCart;  
-
-        // "id": 3,
-        // "quantity": 5,
-        // "total_price": 260,
-        // "created_at": "2023-03-20T20:45:52.000000Z",
-        // "updated_at": "2023-03-15T00:24:18.000000Z",
-        // "prd_id": 7,
-        // "order_id": 3
         
-       $product = new order_items;
-       $product->quantity = $request->quantity;
-       $product->total_price = $request->total_price;
-       $product->created_at = $request->created_at;
-       $product->updated_at = $request->updated_at;
-       $product->prd_id = $request->prd_id;
-       $product->order_id = $request->order_id;
-      
-
-       $product->save();
-
-       return $product;
-
 
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $prd_id)
     {
-        //
+        $user_id =Auth::user()->id;
+        $x= DB::table('cart')
+        ->join('users','users.id','=','cart.user_id')
+        ->join('products','products.id','=','cart.prd_id')
+        ->where('cart.user_id','=',$user_id)
+        ->where('cart.prd_id','=',$prd_id)
+        ->select('cart.*', 
+        'products.name',
+        'products.description',
+        'products.price',
+        'products.brand',
+        'products.photo',
+        'products.prd_rating',
+        )
+        ->get();
+       
+        return $x;
     }
 
     /**
@@ -65,7 +119,8 @@ class ShoppingCartController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+
+     
     }
 
     /**
@@ -73,16 +128,10 @@ class ShoppingCartController extends Controller
      */
     public function destroy(string $id)
     { 
-
-        // $remove =order_items ::find($id);
-        // $this->authorize('delete', $remove);
         
-        // $remove->delete();
-        // return back();
+        $id=Cart::where('id',$id)->delete();
         
-        $id=order_items::where('id',$id)->delete();
-        
-        return response()->json(null, 204);
+        return 'succsess delete';
 
        
        

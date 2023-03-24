@@ -21,6 +21,10 @@ use App\Http\Controllers\API\CartConroller;
 use App\Http\Controllers\API\OrderConroller;
 use App\Http\Controllers\API\UserConroller;
 
+use App\Http\Controllers\API\Check_outController;
+use App\Http\Controllers\API\AdminController;
+use App\Http\Controllers\API\CustomerController;
+use App\Http\Controllers\API\DeliveryController;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -76,17 +80,38 @@ Route::group(['middleware' => ['api']], function(){
 
 
 Route::apiResource('productdetails', App\Http\Controllers\API\ProductDetailsController::class);
-Route::apiResource('shoppingcart',App\Http\Controllers\API\ShoppingCartController::class);
-Route::group(['middleware' => ['api']], function(){
+Route::apiResource('admin',App\Http\Controllers\API\AdminController::class);
+Route::apiResource('customer',App\Http\Controllers\API\CustomerController::class);
+Route::apiResource('delivery',App\Http\Controllers\API\DeliveryController::class);
+//get product in cart
+Route::apiResource('cart',App\Http\Controllers\API\ShoppingCartController::class);
+// get update quantity
+Route::group(['middleware' => ['api','auth:sanctum']], function(){
 
+    Route::get('increment/shoppingcart/{id}', 'App\Http\Controllers\API\ShoppingCartController@incrementQuant');
+  
+    Route::get('decrement/shoppingcart/{id}', 'App\Http\Controllers\API\ShoppingCartController@decrementQuant');
+ 
+    Route::get('getcartprd', 'App\Http\Controllers\API\ShoppingCartController@index');
+ 
+   });
+
+Route::get('status/checkout','App\Http\Controllers\API\Check_outController@getStatus');
+Route::get('governorate/checkout/{governorate}', 'App\Http\Controllers\API\Check_outController@getGovernorate');
+  
+Route::post('orders/checkout', 'App\Http\Controllers\API\Check_outController@createOrder');
+  
+Route::post('statusorder/checkout', 'App\Http\Controllers\API\Check_outController@store');
+  
+
+
+Route::group(['middleware' => ['api']], function(){
     Route::get('gallrey/productdetails/{id}', 'App\Http\Controllers\API\GallreyPhotoController@getgallery');
    });
 
 Route::group(['middleware' => ['api']], function(){
-
     Route::get('review/productdetails/{id}', 'App\Http\Controllers\API\ReviewProductController@getRating');
    });
-
 //public routes
 Route::post('/login', 'App\Http\Controllers\AuthController@login');
 Route::post('/register', 'App\Http\Controllers\AuthController@register');
@@ -114,6 +139,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/topsellings', 'App\Http\Controllers\profile@getTopSelling');
 
     Route::post('/logout', 'App\Http\Controllers\AuthController@logout');
+
+
+    Route::post('addprdtocart', 'App\Http\Controllers\API\CartConroller@store');
+
 });
 //////Order Dashboard routes/////////
 

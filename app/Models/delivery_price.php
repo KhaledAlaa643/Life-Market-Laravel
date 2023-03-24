@@ -9,8 +9,9 @@ class delivery_price extends Model
 {
     use HasFactory;
     protected $table="delivery_price";
+    protected $fillable=['governorate','price','time'];
 
-    protected $fillable = ['price'];
+  
 
 
 }

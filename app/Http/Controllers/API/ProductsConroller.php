@@ -15,10 +15,10 @@ class ProductsConroller extends Controller
         $product=Products::find($id);
         if ($product)
         {
-        $product["selling_count"]+=1;
-        $product["quantity"]-=1;
-        $product->save();
-        return $product;
+            $product["selling_count"]+=1;
+            $product["quantity"]-=1;
+            $product->save();
+            return $product;
         }
         else
         {
