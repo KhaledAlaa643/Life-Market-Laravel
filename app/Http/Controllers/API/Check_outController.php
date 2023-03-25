@@ -39,6 +39,8 @@ class Check_outController extends Controller
             // for( $i=0; $i <= count($cart); $i++ ){
 
             // }
+
+            
            
             foreach ($cart as $myOrder) {
               
