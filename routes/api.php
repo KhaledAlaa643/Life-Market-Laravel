@@ -41,7 +41,7 @@ Route::apiResource('favourite_item',FavouriteItemConroller::class);
 Route::apiResource('contact_us',ContactUsConroller::class);
 Route::apiResource('order',OrderConroller::class);
 Route::middleware('auth:sanctum')->apiResource('cart',CartConroller::class);
-Route::apiResource('users',UserConroller::class);
+Route::apiResource('userss',UserConroller::class);
 
 
 Route::group(['middleware' => ['api']], function(){

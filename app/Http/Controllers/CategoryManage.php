@@ -13,27 +13,24 @@ class CategoryManage extends Controller
         $request->validate([
             'name' => 'required | string | unique:categories,name',
             'description' => 'required | string',
-
-
         ]);
-        DB::table('categories')->where('id', $request->id)
-        ->update([
+
+        return DB::table('categories')->where('id', $request->id)->update([
             'name'=>$request->name,
             'photo'=>$request->photo,
             'description'=>$request->description,
-            'updated_at' => now()
         ]);
-        $UpdatedCategory =DB::table('categories')->where('id', $request->id)->first();
 
-     return $UpdatedCategory;
+        // $UpdatedCategory =DB::table('categories')->where('id', $request->id)->first();
+        // return $UpdatedCategory;
 
-        }
-        public function DeleteCategory(Request $request){
-            DB::table('categories')->where('id', '=', $request->id)->delete();
+    }
+    public function DeleteCategory(Request $request){
+        DB::table('categories')->where('id', '=', $request->id)->delete();
 
-           }
+    }
 
-           public function createCategory(Request $request)
+    public function createCategory(Request $request)
     {
         $request->validate([
             'name' => 'required | string | unique:categories,name',
@@ -55,5 +52,5 @@ class CategoryManage extends Controller
 
     public function getCategoryById(Request $request){
         return DB::table('categories')->where('id', '=', $request->id)->first();
-           }
+    }
 }
