@@ -77,8 +77,24 @@ class AdminController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $admin= User::find($id)->update($request->all());
-            return $admin;
+        if($request->password == ''){
+            $admin= User::find($id)->update([
+                'first_name' => $request->first_name,
+                'last_name' => $request->last_name,
+                'phone' => $request->phone,
+                'email' => $request->email,
+            ]);
+        }
+        else{
+            $admin= User::find($id)->update([
+                'first_name' => $request->first_name,
+                'last_name' => $request->last_name,
+                'phone' => $request->phone,
+                'email' => $request->email,
+                'password' => Hash::make($request->password)
+            ]);
+        }
+        return $admin;
     }
 
     /**

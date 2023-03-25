@@ -77,7 +77,24 @@ class CustomerController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $customer= User::find($id)->update($request->all());
+        // $customer= User::find($id)->update($request->all());
+        if($request->password == ''){
+            $customer= User::find($id)->update([
+                'first_name' => $request->first_name,
+                'last_name' => $request->last_name,
+                'phone' => $request->phone,
+                'email' => $request->email,
+            ]);
+        }
+        else{
+            $customer= User::find($id)->update([
+                'first_name' => $request->first_name,
+                'last_name' => $request->last_name,
+                'phone' => $request->phone,
+                'email' => $request->email,
+                'password' => Hash::make($request->password)
+            ]);
+        }
         return $customer;
     }
 
