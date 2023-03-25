@@ -34,8 +34,9 @@ class OffersConroller extends Controller
         ]);
         $imageName = time().'.'.$request->photo->extension()    ;
         $request->photo->move(public_path('storage/images'), $imageName);
+
         $record->photo=$imageName;
-        $record->created_at=now();
+        // $record->created_at=now();
 
         $record->save();
         // $record =new Offers();
