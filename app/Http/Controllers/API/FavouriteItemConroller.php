@@ -13,15 +13,68 @@ class FavouriteItemConroller extends Controller
 {
        //store new fav item with prd_id
 
-    public function store_new_favourite_item_by_id(string $prd_id,Request $request)
+    public function store_new_favourite_item_by_id(string $prod_id,Request $request)
     {
-        
+        $counter=0;
         $id=Auth::id();
+
+        $prd_ids=FavouriteItem::where('user_id',$id)->get("prd_id");
+        
+        foreach ($prd_ids as $ids )
+        {
+            if($ids->prd_id==$prod_id)
+            {
+             $counter+=1;   
+            }
+        }
+
+
+        if ($counter==0)
+        {
         $fav_product = new FavouriteItem();
         $fav_product->user_id=$id;
-        $fav_product->prd_id=$prd_id;
+        $fav_product->prd_id=$prod_id;
 
         $fav_product->save();
+        }
+        else
+        {
+         $x=FavouriteItem::where('prd_id',$prod_id)->get();
+
+            $x[0]->delete();
+
+        }
+
+        
+    }
+
+    //check if item exist in table
+    public function check (string $prod_id)
+    {
+        $counter=0;
+        $id=Auth::id();
+
+        $prd_ids=FavouriteItem::where('user_id',$id)->get("prd_id");
+        
+        foreach ($prd_ids as $ids )
+        {
+            if($ids->prd_id==$prod_id)
+            {
+             $counter+=1;   
+            }
+        }
+
+
+        if ($counter==0)
+        {
+            return true;
+        }
+        else
+        {
+        
+            return false;
+        }
+
     }
 
 

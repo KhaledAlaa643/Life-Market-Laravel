@@ -82,6 +82,8 @@ Route::group(['middleware' => ['api']], function(){
     Route::get('orderss', 'App\Http\Controllers\API\OrderConroller@get_orders_id_and_date');
     //store new fav item with prd_id
     Route::middleware('auth:sanctum')->post('fav_item/{id}', 'App\Http\Controllers\API\FavouriteItemConroller@store_new_favourite_item_by_id');
+    //check
+    Route::middleware('auth:sanctum')->get('fav/{id}', 'App\Http\Controllers\API\FavouriteItemConroller@check');
 
    });
 
