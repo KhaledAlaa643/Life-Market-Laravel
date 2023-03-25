@@ -73,12 +73,22 @@ class ShoppingCartController extends Controller
 
     public function index()
     {
-        $user_id=Auth::user()->id;
-      
-          $x=DB::table('cart')->where('user_id', $user_id)->get();
-
-          return $x;
-          
+      $user_id =Auth::user()->id;
+      $x= DB::table('cart')
+      ->join('users','users.id','=','cart.user_id')
+      ->join('products','products.id','=','cart.prd_id')
+      ->where('cart.user_id','=',$user_id)
+      ->select('cart.*', 
+      'products.name',
+      'products.description',
+      'products.price',
+      'products.brand',
+      'products.photo',
+      'products.prd_rating',
+      )
+      ->get();
+     
+      return $x;
     }
 
     /**
@@ -93,24 +103,9 @@ class ShoppingCartController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $user_id)
+    public function show()
     {
-        // $user_id =Auth::user()->id;
-        $x= DB::table('cart')
-        ->join('users','users.id','=','cart.user_id')
-        ->join('products','products.id','=','cart.prd_id')
-        ->where('cart.user_id','=',$user_id)
-        ->select('cart.*', 
-        'products.name',
-        'products.description',
-        'products.price',
-        'products.brand',
-        'products.photo',
-        'products.prd_rating',
-        )
-        ->get();
        
-        return $x;
     }
 
     /**
