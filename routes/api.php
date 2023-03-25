@@ -37,7 +37,7 @@ Route::middleware('auth:sanctum')->apiResource('rating',ProductsRatingConroller:
 Route::apiResource('discount',ProductsDiscountConroller::class);
 Route::apiResource('offers',OffersConroller::class);
 Route::apiResource('offers_products',OfferProductsConroller::class);
-Route::apiResource('favourite_item',FavouriteItemConroller::class);
+Route::middleware('auth:sanctum')-> apiResource('favourite_item',FavouriteItemConroller::class);
 Route::apiResource('contact_us',ContactUsConroller::class);
 Route::apiResource('order',OrderConroller::class);
 Route::middleware('auth:sanctum')->apiResource('cart',CartConroller::class);
@@ -80,7 +80,8 @@ Route::group(['middleware' => ['api']], function(){
     Route::get('offer/{id}', 'App\Http\Controllers\API\OffersConroller@get_offer_by_id');
     //get order id and date
     Route::get('orderss', 'App\Http\Controllers\API\OrderConroller@get_orders_id_and_date');
-
+    //store new fav item with prd_id
+    Route::middleware('auth:sanctum')->post('fav_item/{id}', 'App\Http\Controllers\API\FavouriteItemConroller@store_new_favourite_item_by_id');
 
    });
 

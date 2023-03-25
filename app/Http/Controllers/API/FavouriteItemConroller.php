@@ -6,12 +6,23 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\FavouriteItem;
 use App\Models\Products;
+use Illuminate\Support\Facades\Auth;
+
 
 class FavouriteItemConroller extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+       //store new fav item with prd_id
+
+    public function store_new_favourite_item_by_id(string $prd_id,Request $request)
+    {
+        
+        $id=Auth::id();
+        $fav_product = new FavouriteItem();
+        $fav_product->user_id=$id;
+        $fav_product->prd_id=$prd_id;
+
+        $fav_product->save();
+    }
 
 
     public function index()
@@ -24,7 +35,6 @@ class FavouriteItemConroller extends Controller
      */
     public function store(Request $request)
     {
-        //
     }
 
    
