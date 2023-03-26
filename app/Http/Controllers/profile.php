@@ -6,11 +6,11 @@ use App\Models\Address;
 use App\Models\AddressModel;
 use App\Models\order;
 use App\Models\User;
-
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-
+use App\Notifications\UserUpdatedNotification;
+use App\Models\Notification;
 class profile extends Controller
 {
     public function userData()
@@ -31,7 +31,20 @@ class profile extends Controller
 
             'updated_at' => now()
         ]);
-        return response()->json(['user' => $user]);
+        $notificationData = [
+            'user_id' => $user->id,
+           
+            'data' => 'Your Account Updated successfully.',
+            'notifiable_id' => $user->id,
+            'notifiable_type' => 'App\Models\User'
+        ];
+    
+        $notification = new Notification($notificationData);
+        $notification->save();
+        return response()->json([
+            'user' => $user,
+            'notification' => $notification
+    ]);
     }
 
     public function getOrders(Request $request)

@@ -4,6 +4,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Http\Requests\StoreUserRequest;
 use App\Models\User;
 use App\Traits\httpResponses;
+use App\Models\Notification;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,19 +15,51 @@ class AuthController extends Controller
 {
     use httpResponses;
 
-    public function login(Request $request)
-    {if(  Auth::attempt($request->only('email','password'))  )
-        {
-                  $user=User::where('email',$request->email)->first();
-          $token= Auth::user()->createToken('nene');
-          return ['token' => $token->plainTextToken, 'user'=>$user
-          ];
-        }
-        return [
-          "message"=>"wrong email  or password"
-        ];
+    // public function login(Request $request)
+    // {if(  Auth::attempt($request->only('email','password'))  )
+    //     {
+    //               $user=User::where('email',$request->email)->first();
+    //       $token= Auth::user()->createToken('nene');
+    //       return ['token' => $token->plainTextToken, 'user'=>$user
+          
+    //       ];
+    //     }
+       
+    //     return [
+    //       "message"=>"wrong email  or password"
+    //     ];
 
+    // }
+    public function login(Request $request)
+{
+    if (Auth::attempt($request->only('email', 'password'))) {
+        $user = User::where('email', $request->email)->first();
+        $token = Auth::user()->createToken('nene');
+        
+        // Create a notification
+        $notification = new Notification([
+            'user_id' => $user->id,
+            'data' => 'WELCOME!You have successfully logged in.',
+            'notifiable_id' => $user->id,
+            'notifiable_type' => 'App\Models\User',
+        ]);
+
+        // Save the notification to the database
+        $notification->save();
+        
+        return [
+            'token' => $token->plainTextToken,
+            'user' => $user,
+            'notification' => $notification
+
+        ];
     }
+
+    return [
+        'message' => 'Wrong email or password',
+    ];
+}
+
     public function register(Request $request)
     {
 
@@ -76,5 +109,16 @@ class AuthController extends Controller
         return response()->json('Successfully logged out');
     }
 
-
+    public function getNotifications(Request $request)
+    {
+        $notifications = $request->user()->unreadNotifications()->orderBy('created_at', 'desc')->get();
+        
+        // mark all notifications as read
+        $request->user()->unreadNotifications->markAsRead();
+    
+        return response()->json(['notifications' => $notifications]);
+    }
+    
+    
+    
 }

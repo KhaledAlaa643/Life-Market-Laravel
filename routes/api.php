@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\CategoriesConroller;
 use App\Http\Controllers\API\SubCategoriesConroller;
@@ -18,8 +19,8 @@ use App\Http\Controllers\API\GallreyPhotoController;
 use App\Http\Controllers\API\ReviewProductController;
 use App\Http\Controllers\API\ContactUsConroller;
 use App\Http\Controllers\API\CartConroller;
-
-
+use App\Notifications\OrderStatusUpdated;
+use App\Models\Notification;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
@@ -58,8 +59,10 @@ Route::group(['middleware' => ['api']], function(){
     Route::get('toprating/products', 'App\Http\Controllers\API\ProductsConroller@top_rating_products');
     //get top selling products
     Route::get('topselling/products', 'App\Http\Controllers\API\ProductsConroller@top_selling_products');
-
-   });
+    
+    });
+    
+   
 
 Route::apiResource('productdetails', App\Http\Controllers\API\ProductDetailsController::class);
 Route::apiResource('shoppingcart',App\Http\Controllers\API\ShoppingCartController::class);
@@ -104,3 +107,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
 Route::get('/orders', 'App\Http\Controllers\API\OrderController@order');
 Route::put('/orders/{order_id}', 'App\Http\Controllers\API\OrderController@update');
 Route::get('/orders/{order_id}','App\Http\Controllers\API\OrderController@orderview');
+
+Route::middleware('auth:sanctum')->get('/notifications', 'App\Http\Controllers\NotificationController@index');
+Route::middleware('auth:sanctum')->post('/notifications/mark-as-read', 'App\Http\Controllers\NotificationController@markAsRead');
+Route::middleware('auth:sanctum')->get('/notifications/unread-count', 'App\Http\Controllers\NotificationController@getUnreadCount');
+
+
