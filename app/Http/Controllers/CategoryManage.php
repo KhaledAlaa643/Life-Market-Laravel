@@ -9,20 +9,22 @@ use Illuminate\Support\Facades\DB;
 class CategoryManage extends Controller
 {
     public function updateCategory(Request $request){
+        $file = $request->file('photo');
+        $filename  = time().'.'.$file->getClientOriginalName();
+        $extension = $file->getClientOriginalExtension();
+        $request->photo->move(public_path('storage/images/categories'), $filename);
 
         $request->validate([
-            'name' => 'required | string | unique:categories,name',
+            'name' => 'required | string ',
             'description' => 'required | string',
         ]);
 
-        return DB::table('categories')->where('id', $request->id)->update([
+         DB::table('categories')->where('id', $request->id)->update([
             'name'=>$request->name,
-            'photo'=>$request->photo,
+            'photo'=>$filename,
             'description'=>$request->description,
         ]);
 
-        // $UpdatedCategory =DB::table('categories')->where('id', $request->id)->first();
-        // return $UpdatedCategory;
 
     }
     public function DeleteCategory(Request $request){
@@ -32,16 +34,21 @@ class CategoryManage extends Controller
 
     public function createCategory(Request $request)
     {
+        $file = $request->file('photo');
+        $filename  = time().'.'.$file->getClientOriginalName();
+        $extension = $file->getClientOriginalExtension();
+        $request->photo->move(public_path('storage/images/categories'), $filename);
+
         $request->validate([
             'name' => 'required | string | unique:categories,name',
             'description' => 'required | string',
-            'photo' => 'required | string',
+
 
         ]);
         $cat = Categories::create([
             'name' => $request->name,
             'description' => $request->description,
-            'photo' => $request->photo,
+            'photo' =>$filename,
         ]);
         return $cat;
 
