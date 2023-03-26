@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
 class Notification extends Model
 {
     use HasFactory;
@@ -13,8 +12,6 @@ class Notification extends Model
         'user_id',
         'data',
     ];
-  
-
     public function markAsRead()
     {
         $this->update(['read_at' => now()]);
