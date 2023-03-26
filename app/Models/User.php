@@ -56,14 +56,7 @@ class User extends Authenticatable
     {
         return $this->hasMany(Order::class);
     }
-//     public function notifications()
-//     {
-//         return $this->hasMany(Notification::class);
-//     }
-//     public function unreadNotifications()
-// {
-//     return $this->notifications()->whereNull('read_at');
-// }
+////add relation of notification////
 public function notifications()
 {
     return $this->hasMany(Notification::class)->orderBy('created_at', 'desc');
