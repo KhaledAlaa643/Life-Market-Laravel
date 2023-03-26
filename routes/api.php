@@ -93,7 +93,7 @@ Route::apiResource('admin',App\Http\Controllers\API\AdminController::class);
 Route::apiResource('customer',App\Http\Controllers\API\CustomerController::class);
 Route::apiResource('delivery',App\Http\Controllers\API\DeliveryController::class);
 //get product in cart
-Route::apiResource('cart',App\Http\Controllers\API\ShoppingCartController::class);
+// Route::apiResource('cart',App\Http\Controllers\API\ShoppingCartController::class);
 // get update quantity
 Route::group(['middleware' => ['api','auth:sanctum']], function(){
 
@@ -102,6 +102,10 @@ Route::group(['middleware' => ['api','auth:sanctum']], function(){
     Route::get('decrement/shoppingcart/{id}', 'App\Http\Controllers\API\ShoppingCartController@decrementQuant');
  
     Route::get('getcartprd', 'App\Http\Controllers\API\ShoppingCartController@index');
+
+    Route::get('cartprd','App\Http\Controllers\API\ShoppingCartController@show');
+
+    Route::delete('delprdfromcart/{id}','App\Http\Controllers\API\ShoppingCartController@destroy');
  
    });
 

@@ -65,14 +65,14 @@ class FavouriteItemConroller extends Controller
         }
 
 
-        if ($counter==0)
+        if ($counter>0)
         {
-            return true;
+            return 1;
         }
         else
         {
         
-            return false;
+            return 0;
         }
 
     }

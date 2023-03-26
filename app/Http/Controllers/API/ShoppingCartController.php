@@ -37,10 +37,10 @@ class ShoppingCartController extends Controller
                 ->where('user_id',$user_id )
                 ->where('prd_id', $prd_id)
                 ->increment('quantity');
-                return 'Quantity increased successfully';
+                return 1;
 
           }else{
-            return ' out of stock';
+            return 0;
           }
     
      }
@@ -55,16 +55,16 @@ class ShoppingCartController extends Controller
           ->where('id', $prd_id)
           ->get('quantity');
 
-          if( $x[0]->quantity > 0){
+          if( $x[0]->quantity > 1){
 
             $x=DB::table('cart')
             ->where('user_id',$user_id )
             ->where('prd_id', $prd_id)
             ->decrement('quantity');
-            return 'Quantity decreased successfully';
+            return 1;
 
           }else{
-            return ' out of stock';
+            return 0;
           }
     
      }
@@ -93,14 +93,14 @@ class ShoppingCartController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $prd_id)
+    public function show()
     {
         $user_id =Auth::user()->id;
         $x= DB::table('cart')
         ->join('users','users.id','=','cart.user_id')
         ->join('products','products.id','=','cart.prd_id')
         ->where('cart.user_id','=',$user_id)
-        ->where('cart.prd_id','=',$prd_id)
+        // ->where('cart.prd_id','=',$prd_id)
         ->select('cart.*', 
         'products.name',
         'products.description',
@@ -110,6 +110,8 @@ class ShoppingCartController extends Controller
         'products.prd_rating',
         )
         ->get();
+        // $x=DB::table('cart')->where('user_id', $user_id)->get();
+
        
         return $x;
     }
@@ -129,9 +131,9 @@ class ShoppingCartController extends Controller
     public function destroy(string $id)
     { 
         
-        $id=Cart::where('id',$id)->delete();
+        $ids=Cart::where('id',$id)->delete();
         
-        return 'succsess delete';
+        return $ids;
 
        
        
