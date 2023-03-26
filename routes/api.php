@@ -21,60 +21,60 @@ use App\Http\Controllers\API\ContactUsConroller;
 use App\Http\Controllers\API\CartConroller;
 use App\Notifications\OrderStatusUpdated;
 use App\Models\Notification;
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::apiResource('categories',CategoriesConroller::class);
-Route::apiResource('sub_categories',SubCategoriesConroller::class);
-Route::apiResource('products',ProductsConroller::class);
-Route::middleware('auth:sanctum')->apiResource('rating',ProductsRatingConroller::class);
-Route::apiResource('discount',ProductsDiscountConroller::class);
-Route::apiResource('offers',OffersConroller::class);
-Route::apiResource('offers_products',OfferProductsConroller::class);
-Route::apiResource('favourite_item',FavouriteItemConroller::class);
-Route::apiResource('contact_us',ContactUsConroller::class);
-Route::middleware('auth:sanctum')->apiResource('cart',CartConroller::class);
+Route::apiResource('categories', CategoriesConroller::class);
+Route::apiResource('sub_categories', SubCategoriesConroller::class);
+Route::apiResource('products', ProductsConroller::class);
+Route::middleware('auth:sanctum')->apiResource('rating', ProductsRatingConroller::class);
+Route::apiResource('discount', ProductsDiscountConroller::class);
+Route::apiResource('offers', OffersConroller::class);
+Route::apiResource('offers_products', OfferProductsConroller::class);
+Route::apiResource('favourite_item', FavouriteItemConroller::class);
+Route::apiResource('contact_us', ContactUsConroller::class);
+Route::middleware('auth:sanctum')->apiResource('cart', CartConroller::class);
 
 
-Route::group(['middleware' => ['api']], function(){
-   //search for product using name ,brand ,sub cat
- Route::get('search/{name}', 'App\Http\Controllers\API\SearchConroller@search');  
- Route::post('search', 'App\Http\Controllers\API\SearchConroller@search');
+Route::group(['middleware' => ['api']], function () {
+    //search for product using name ,brand ,sub cat
+    Route::get('search/{name}', 'App\Http\Controllers\API\SearchConroller@search');
+    Route::post('search', 'App\Http\Controllers\API\SearchConroller@search');
 });
 
-Route::group(['middleware' => ['api']], function(){
-     //get products by category id
+Route::group(['middleware' => ['api']], function () {
+    //get products by category id
     Route::get('category/products/{num}', 'App\Http\Controllers\API\CategoriesConroller@getproducts');
-   });
+});
 
 
 
-Route::group(['middleware' => ['api']], function(){
+Route::group(['middleware' => ['api']], function () {
     //update product quantity& selling count by prod id
     Route::put('update/products/{num}', 'App\Http\Controllers\API\ProductsConroller@updateproduct');
-     //update rate of product based on product id from prd rate table
+    //update rate of product based on product id from prd rate table
     Route::put('products/rate/{num}', 'App\Http\Controllers\API\ProductsConroller@getrate');
     //get top rating products
     Route::get('toprating/products', 'App\Http\Controllers\API\ProductsConroller@top_rating_products');
     //get top selling products
     Route::get('topselling/products', 'App\Http\Controllers\API\ProductsConroller@top_selling_products');
-    
-    });
-    
-   
+});
+
+
 
 Route::apiResource('productdetails', App\Http\Controllers\API\ProductDetailsController::class);
-Route::apiResource('shoppingcart',App\Http\Controllers\API\ShoppingCartController::class);
-Route::group(['middleware' => ['api']], function(){
+Route::apiResource('shoppingcart', App\Http\Controllers\API\ShoppingCartController::class);
+Route::group(['middleware' => ['api']], function () {
 
     Route::get('gallrey/productdetails/{id}', 'App\Http\Controllers\API\GallreyPhotoController@getgallery');
-   });
+});
 
-Route::group(['middleware' => ['api']], function(){
+Route::group(['middleware' => ['api']], function () {
 
     Route::get('review/productdetails/{id}', 'App\Http\Controllers\API\ReviewProductController@getRating');
-   });
+});
 
 //public routes
 Route::post('/login', 'App\Http\Controllers\AuthController@login');
@@ -106,10 +106,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
 Route::get('/orders', 'App\Http\Controllers\API\OrderController@order');
 Route::put('/orders/{order_id}', 'App\Http\Controllers\API\OrderController@update');
-Route::get('/orders/{order_id}','App\Http\Controllers\API\OrderController@orderview');
-
+Route::get('/orders/{order_id}', 'App\Http\Controllers\API\OrderController@orderview');
+/////////Make Notification Routes/////
 Route::middleware('auth:sanctum')->get('/notifications', 'App\Http\Controllers\NotificationController@index');
 Route::middleware('auth:sanctum')->post('/notifications/mark-as-read', 'App\Http\Controllers\NotificationController@markAsRead');
 Route::middleware('auth:sanctum')->get('/notifications/unread-count', 'App\Http\Controllers\NotificationController@getUnreadCount');
-
-
