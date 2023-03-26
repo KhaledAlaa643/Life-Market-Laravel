@@ -87,7 +87,7 @@ return $orders_total;}
             $fav_items_details[$i] =  DB::table('favourite_item')
             ->join('products', 'favourite_item.prd_id', '=', 'products.id')
             ->where('products.id', $prd_ids[$i])
-            ->select('products.*','favourite_item.id')
+            ->select('products.*','favourite_item.id',"favourite_item.prd_id")
             ->get();
 
         }
