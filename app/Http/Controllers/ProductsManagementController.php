@@ -36,21 +36,24 @@ public function getProductsBySubCat(Request $request){
         'name' => 'required | string | unique:products,name',
         'description' => 'required | string',
         'sub_cat_id' => 'required |integer',
-        'price_before_discount'=>'required | int',
         'price'=>'required | int',
         "brand"=>'required | string',
         "quantity"=>'required | int',
-        "photo"=>'required | string'
+        'photo' => 'required|mimes:jpeg,png,jpg,gif,svg|max:2048',
 
     ]);
     $user_id= Auth::user()->id;
+
+    $file      = $request->file('photo');
+    $filename  = time().'.'.$file->getClientOriginalName();
+    $extension = $file->getClientOriginalExtension();
+    $request->photo->move(public_path('storage/images/products'), $filename);
 
     $product = products::create([
         'name' => $request->name,
         'description' => $request->description,
         'sub_cat_id' => $request->sub_cat_id,
-        "photo"=>$request->photo,
-        'price_before_discount'=>$request->price_before_discount,
+        "photo"=>$filename,
         'price'=>$request->price,
         "brand"=>$request->brand,
         "quantity"=>$request->quantity,
@@ -58,40 +61,43 @@ public function getProductsBySubCat(Request $request){
         'created_at' => now()
     ]);
     return $product;
-    // return $request;
+
    }
 
    public function updateProduct(Request $request){
     $user_id= Auth::user()->id;
 
-    $request->validate([
-        'name' => 'required | string | unique:sub_categories,name',
-        'description' => 'required | string',
-        'sub_cat_id' => 'required |integer',
-        'price_before_discount'=>'required | int',
-        'price'=>'required | int',
-        "brand"=>'required | string',
-        "quantity"=>'required | int',
-        "photo"=>'required | string',
-         'id'=>'required | int'
-    ]);
+    // $request->validate([
+    //     'name' => 'required | string | unique:sub_categories,name',
+    //     'description' => 'required | string',
+    //     'sub_cat_id' => 'required |integer',
+
+    //     'price'=>'required | int',
+    //     "brand"=>'required | string',
+    //     "quantity"=>'required | int',
+
+    //      'id'=>'required | int'
+    // ]);
+    $file = $request->file('photo');
+    $filename  = time().'.'.$file->getClientOriginalName();
+    $extension = $file->getClientOriginalExtension();
+    $request->photo->move(public_path('storage/images/products'), $filename);
+
     $x=DB::table('products')->where('id', $request->id)
     ->update([
         "name"=>$request->name,
         'description' => $request->description,
-
         'sub_cat_id' => $request->sub_cat_id,
-        "photo"=>$request->photo,
-        'price_before_discount'=>$request->price_before_discount,
+        "photo" =>$filename,
         'price'=>$request->price,
         "brand"=>$request->brand,
         "quantity"=>$request->quantity,
          "user_id"=>$user_id,
         'updated_at' => now()
     ]);
-    $UpdatedSubCategory =DB::table('products')->where('id', $request->id)->first();
- return $UpdatedSubCategory;
-// return $request;
+
+
+
 
     }
   public function  getProductById(Request $request){
