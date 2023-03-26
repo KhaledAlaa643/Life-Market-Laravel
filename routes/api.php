@@ -184,3 +184,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
 Route::get('/orders', 'App\Http\Controllers\API\OrderController@order');
 Route::put('/orders/{order_id}', 'App\Http\Controllers\API\OrderController@update');
 Route::get('/orders/{order_id}','App\Http\Controllers\API\OrderController@orderview');
+
+/////////Make Notification Routes/////
+Route::middleware('auth:sanctum')->get('/notifications', 'App\Http\Controllers\NotificationController@index');
+Route::middleware('auth:sanctum')->post('/notifications/mark-as-read', 'App\Http\Controllers\NotificationController@markAsRead');
+Route::middleware('auth:sanctum')->get('/notifications/unread-count', 'App\Http\Controllers\NotificationController@getUnreadCount');
+

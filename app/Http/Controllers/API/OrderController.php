@@ -17,7 +17,7 @@ class OrderController extends Controller
      * Display a listing of the resource.
      * 
      */
-   
+
     public function order(){
         $order = DB::table('order as o')
             ->join('users', 'users.id', '=', 'o.user_id')
@@ -30,9 +30,9 @@ class OrderController extends Controller
             });
         return $order;
     }
-    
 
-    
+
+
     public function orderview($orderId){
         $ordered = DB::table('products as p')
             ->join('order_items', 'order_items.prd_id', '=', 'p.id')
@@ -49,18 +49,18 @@ class OrderController extends Controller
             });
         return $ordered;
     }
-    
-    
-    
-    
-    
+
+
+
+
+
     public function index($user_id)
     {
         $orders = Order::where('user_id', $user_id)->get();
-        
+
         return response()->json($orders);
     }
-    
+
 
 //     /**
 //      * Update the specified resource in storage.

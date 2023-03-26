@@ -1,11 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\Notification;
 use App\Models\Address;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\Notifications\AddressCreatedNotification;
 
 class AddressController extends Controller
 {
@@ -22,8 +23,10 @@ class AddressController extends Controller
         }
 
     }
+    
     public function createAddress(Request $request){
         $user_id =Auth::user()->id;
+       
         $request->validate([
             'street'=>'required | string',
             'city'=>'required | string',
@@ -38,7 +41,23 @@ class AddressController extends Controller
             'zip_code'=>$request->zip_code,
             'created_at' => now()
         ]);
-        return $address;
+       
+        // Create a new notification model instance
+   // Create a new notification model instance
+$notification = new Notification([
+    'user_id' => $user_id,
+    'data' => 'Address created successfully.',
+    'notifiable_id' => $address->id, // set the notifiable_id to the ID of the address
+    'notifiable_type' => 'App\Models\Address', // set the notifiable_type to the class name of the address model
+]);
+
+// Save the notification to the database
+$notification->save();
+   
+return response()->json([
+    'address' => $address,
+    'notification' => $notification
+]);
     }
     public function updateAddress(Request $request)
     {
@@ -55,7 +74,22 @@ class AddressController extends Controller
         ]);
 
        $UpdatedAddress =DB::table('address')->where('user_id', $user_id)->first();
+       $notification = new Notification([
+        'user_id' => $user_id,
+        'data' => 'Great! your Address Updated successfully.',
 
-        return response()->json(['updated address' => $UpdatedAddress]);
+        'notifiable_type' => 'App\Models\Address', // set the notifiable_type to the class name of the address model
+    ]);
+    
+    // Save the notification to the database
+    $notification->save();
+       
+   
+       
+        return response()->json([
+            'updated address' => $UpdatedAddress,
+            'notification' => $notification
+    ]);
     }
+   
 }

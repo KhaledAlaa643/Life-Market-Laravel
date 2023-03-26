@@ -1,11 +1,12 @@
 <?php
 
 namespace App\Models;
-
+use App\Models\Notification;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+
 use Laravel\Sanctum\HasApiTokens;
 
 use App\Models\order;
@@ -20,6 +21,7 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
+
     protected $fillable = [
         'first_name',
         'last_name',
@@ -28,6 +30,7 @@ class User extends Authenticatable
         'email',
         'password',
     ];
+
 
     /**
      * The attributes that should be hidden for serialization.
@@ -38,7 +41,8 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
-
+    
+    
     /**
      * The attributes that should be cast.
      *
@@ -55,4 +59,15 @@ class User extends Authenticatable
     {
         return $this->hasMany(Order::class);
     }
+////add relation of notification////
+public function notifications()
+{
+    return $this->hasMany(Notification::class)->orderBy('created_at', 'desc');
 }
+
+public function unreadNotifications()
+{
+    return $this->notifications()->whereNull('read_at');
+}
+
+} 
