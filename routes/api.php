@@ -95,20 +95,20 @@ Route::apiResource('cart',App\Http\Controllers\API\ShoppingCartController::class
 Route::group(['middleware' => ['api','auth:sanctum']], function(){
 
     Route::get('increment/shoppingcart/{id}', 'App\Http\Controllers\API\ShoppingCartController@incrementQuant');
-  
+
     Route::get('decrement/shoppingcart/{id}', 'App\Http\Controllers\API\ShoppingCartController@decrementQuant');
- 
+
     Route::get('getcartprd', 'App\Http\Controllers\API\ShoppingCartController@index');
- 
+
    });
 
 Route::get('status/checkout','App\Http\Controllers\API\Check_outController@getStatus');
 Route::get('governorate/checkout/{governorate}', 'App\Http\Controllers\API\Check_outController@getGovernorate');
-  
+
 Route::post('orders/checkout', 'App\Http\Controllers\API\Check_outController@createOrder');
-  
+
 Route::post('statusorder/checkout', 'App\Http\Controllers\API\Check_outController@store');
-  
+
 
 
 Route::group(['middleware' => ['api']], function(){
@@ -170,6 +170,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/dashboard/products/by-sub_category/{Subcat}','App\Http\Controllers\ProductsManagementController@getProductsBySubCat');
     Route::get('/dashboard/products/all-products','App\Http\Controllers\ProductsManagementController@getAllProducts');
 
+    Route::delete('/dashboard/gallery/product/{id}','App\Http\Controllers\GalleryController@deleteGallery');
+    Route::get('/dashboard/gallery/product/{id}','App\Http\Controllers\GalleryController@getGalleryById');
+    Route::post('/dashboard/gallery/product','App\Http\Controllers\GalleryController@createGallery');
 
 });
 //////Order Dashboard routes/////////
