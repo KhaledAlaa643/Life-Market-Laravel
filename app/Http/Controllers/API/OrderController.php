@@ -46,7 +46,7 @@ class OrderController extends Controller
                 'p.name as product_name','p.photo as product_photo','p.description as product_description','p.price as product_price',
                 'address.street','address.city', 'address.governorate', 'address.zip_code',
                 'users.first_name','users.last_name','users.email','users.phone',
-                'delivery_price.price as delivery_price ','delivery_price.time as delivery_time'
+                'delivery_price.price as delivery_price','delivery_price.time as delivery_time'
             )
             ->where('order.id', '=', $orderId)
             ->get();
