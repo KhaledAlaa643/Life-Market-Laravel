@@ -73,9 +73,9 @@ class ShoppingCartController extends Controller
 
     public function index()
     {
-        $user_id=Auth::user()->id;
+        // $user_id=Auth::user()->id;
       
-          $x=DB::table('cart')->where('user_id', $user_id)->get();
+          $x=DB::table('users')->get('id');
 
           return $x;
           
@@ -94,6 +94,7 @@ class ShoppingCartController extends Controller
      * Display the specified resource.
      */
     public function show()
+    // public function show(string $user_id)
     {
         $user_id =Auth::user()->id;
         $x= DB::table('cart')

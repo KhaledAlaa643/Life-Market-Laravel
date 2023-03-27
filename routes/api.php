@@ -25,6 +25,7 @@ use App\Http\Controllers\API\Check_outController;
 use App\Http\Controllers\API\AdminController;
 use App\Http\Controllers\API\CustomerController;
 use App\Http\Controllers\API\DeliveryController;
+use App\Http\Controllers\API\PaymentController;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -92,6 +93,7 @@ Route::apiResource('productdetails', App\Http\Controllers\API\ProductDetailsCont
 Route::apiResource('admin',App\Http\Controllers\API\AdminController::class);
 Route::apiResource('customer',App\Http\Controllers\API\CustomerController::class);
 Route::apiResource('delivery',App\Http\Controllers\API\DeliveryController::class);
+Route::apiResource('payment',App\Http\Controllers\API\PaymentController::class);
 //get product in cart
 // Route::apiResource('cart',App\Http\Controllers\API\ShoppingCartController::class);
 // get update quantity
@@ -109,13 +111,15 @@ Route::group(['middleware' => ['api','auth:sanctum']], function(){
  
    });
 
-Route::get('status/checkout','App\Http\Controllers\API\Check_outController@getStatus');
-Route::get('governorate/checkout/{governorate}', 'App\Http\Controllers\API\Check_outController@getGovernorate');
-  
-Route::post('orders/checkout', 'App\Http\Controllers\API\Check_outController@createOrder');
-  
-Route::post('statusorder/checkout', 'App\Http\Controllers\API\Check_outController@store');
-  
+  // api for check out
+Route::group(['middleware' => ['api','auth:sanctum']], function(){
+    Route::get('status/checkout','App\Http\Controllers\API\Check_outController@getStatus');
+    Route::get('governorate/checkout/{governorate}', 'App\Http\Controllers\API\Check_outController@getGovernorate');
+    Route::get('orders/checkout/{id}', 'App\Http\Controllers\API\Check_outController@createOrder');
+    Route::post('checkout/createorder', 'App\Http\Controllers\API\Check_outController@store');
+
+     });
+
 
 
 Route::group(['middleware' => ['api']], function(){
