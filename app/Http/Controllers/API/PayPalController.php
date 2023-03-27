@@ -10,15 +10,15 @@ use Srmkilive\PayPal\Services\ExpressCheckout;
 class PayPalController extends Controller
 {
   
-    public function RequestPayment( Request $request){
-        $provider= new PayPalClient();
+    // public function RequestPayment( Request $request){
+    //     $provider= new PayPalClient();
 
-        $provider->setApiCredtials(config('paypal'));
-        $paypalToken=$provider->getAccessToken();
-        $amount=$request->amount;
+    //     $provider->setApiCredtials(config('paypal'));
+    //     $paypalToken=$provider->getAccessToken();
+    //     $amount=$request->amount;
 
-        $respons=nmm;
-    } 
+    //     $respons=nmm;
+    // } 
    
 
 

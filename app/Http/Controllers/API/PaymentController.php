@@ -22,7 +22,8 @@ class PaymentController extends Controller
     public function store(Request $request)
     {
         $payment=new Payment();
-        $payment->card_num=$request->card_num;
+        $payment->cardName=$request->cardName;
+        $payment->cardNum=$request->cardNum;
         $payment->expiration_date=$request->expiration_date;
         $payment->user_id=$request->user_id;
         $payment->created_at=now();

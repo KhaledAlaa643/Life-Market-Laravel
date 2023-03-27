@@ -70,24 +70,24 @@ Route::apiResource('payment',App\Http\Controllers\API\PaymentController::class);
 //get product in cart
 Route::apiResource('cart',App\Http\Controllers\API\ShoppingCartController::class);
 // get update quantity
-// Route::group(['middleware' => ['api','auth:sanctum']], function(){
+Route::group(['middleware' => ['api','auth:sanctum']], function(){
 
-//     Route::get('increment/shoppingcart/{id}', 'App\Http\Controllers\API\ShoppingCartController@incrementQuant');
+    Route::get('increment/shoppingcart/{id}', 'App\Http\Controllers\API\ShoppingCartController@incrementQuant');
   
-//     Route::get('decrement/shoppingcart/{id}', 'App\Http\Controllers\API\ShoppingCartController@decrementQuant');
+    Route::get('decrement/shoppingcart/{id}', 'App\Http\Controllers\API\ShoppingCartController@decrementQuant');
  
-//     Route::get('getcartprd', 'App\Http\Controllers\API\ShoppingCartController@index');
+    Route::get('getcartprd', 'App\Http\Controllers\API\ShoppingCartController@index');
  
-//    });
+   });
 
-Route::get('status/checkout','App\Http\Controllers\API\Check_outController@getStatus');
-Route::get('governorate/checkout/{governorate}', 'App\Http\Controllers\API\Check_outController@getGovernorate');
-  
-Route::post('orders/checkout', 'App\Http\Controllers\API\Check_outController@createOrder');
-  
-Route::post('statusorder/checkout', 'App\Http\Controllers\API\Check_outController@store');
-  
+  // api for check out
+Route::group(['middleware' => ['api']], function(){
+    Route::get('status/checkout','App\Http\Controllers\API\Check_outController@getStatus');
+    Route::get('governorate/checkout/{governorate}', 'App\Http\Controllers\API\Check_outController@getGovernorate');
+    Route::get('orders/checkout/{id}', 'App\Http\Controllers\API\Check_outController@createOrder');
+    Route::post('statusorder/checkout', 'App\Http\Controllers\API\Check_outController@store');
 
+     });
 
 Route::group(['middleware' => ['api']], function(){
     Route::get('gallrey/productdetails/{id}', 'App\Http\Controllers\API\GallreyPhotoController@getgallery');
