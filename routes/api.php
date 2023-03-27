@@ -22,6 +22,7 @@ use App\Http\Controllers\API\AdminController;
 use App\Http\Controllers\API\CustomerController;
 use App\Http\Controllers\API\DeliveryController;
 use App\Http\Controllers\API\PaymentController;
+use App\Http\Controllers\API\PayPalController;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -82,12 +83,23 @@ Route::group(['middleware' => ['api','auth:sanctum']], function(){
 
   // api for check out
 Route::group(['middleware' => ['api']], function(){
-    Route::get('status/checkout','App\Http\Controllers\API\Check_outController@getStatus');
+    Route::get('status/checkout/{id}','App\Http\Controllers\API\Check_outController@getStatus');
     Route::get('governorate/checkout/{governorate}', 'App\Http\Controllers\API\Check_outController@getGovernorate');
     Route::get('orders/checkout/{id}', 'App\Http\Controllers\API\Check_outController@createOrder');
     Route::post('statusorder/checkout', 'App\Http\Controllers\API\Check_outController@store');
 
      });
+
+// payment 
+
+Route::group(['middleware' => ['api']], function(){
+    // Route::get('create-transaction', [PayPalController::class, 'createTransaction'])->name('createTransaction');
+    Route::get('process-transaction','App\Http\Controllers\API\PayPalController@processTransaction');
+    Route::get('success-transaction','App\Http\Controllers\API\PayPalController@successTransaction');
+    Route::get('cancel-transaction','App\Http\Controllers\API\PayPalController@cancelTransaction');
+      });
+
+
 
 Route::group(['middleware' => ['api']], function(){
     Route::get('gallrey/productdetails/{id}', 'App\Http\Controllers\API\GallreyPhotoController@getgallery');
