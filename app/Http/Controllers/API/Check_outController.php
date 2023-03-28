@@ -11,10 +11,15 @@ use App\Models\order;
 use App\Models\order_items;
 use App\Models\Cart;
 use App\Models\delivery_price;
-
+use App\Models\Products;
 
 class Check_outController extends Controller
 {
+
+
+    
+
+
     public function getGovernorate($Governorate )
       {                                         
             $gov=delivery_price::where('governorate',$Governorate)->get();
@@ -29,34 +34,31 @@ class Check_outController extends Controller
             return $status;
       }
 
-      public function createOrder(Request $request ){
+      public function createOrder(string $id ){
         
-            // $user_id=Auth::user()->id;
+            $user_id=Auth::user()->id;
 
             $cart[]=[];
-            $cart=Cart::where('user_id',28)->get();
+            $cart=Cart::where('user_id',$user_id)->get();
 
-            // for( $i=0; $i <= count($cart); $i++ ){
-
-            // }
-           
-            foreach ($cart as $myOrder) {
-              
-                 // $myOrder[$i]=DB::table('order_items')
-                // ->insert('quantity','total_price','prd_id','order_id')
-                // ->value(4,2000,4,4)
-
+            foreach ($cart as $prd) {
+        
                 $myOrder= new order_items();
-              
-                $myOrder->quantity=$request->quantity;
-                $myOrder->total_price=$request->total_price;
-                $myOrder->prd_id=$request->prd_id;
-                $myOrder->order_id=$request->order_id;
-                $myOrder->created_at=now();
+                $myOrder->quantity=$prd->quantity;
+                $myOrder->total_price=$prd->price * $prd->quantity;
+                $myOrder->prd_id=$prd->prd_id;
+                $myOrder->order_id= $id;
                 $myOrder->save();
+
+                $product=Products::find($prd->prd_id);
+                $product->quantity-=$prd->quantity;
+                $product->save();
         
             }
-            return $myOrder;
+             
+            $cart=Cart::where('user_id',$user_id)->delete();
+
+            return $product;
       }
 
      
@@ -73,13 +75,12 @@ class Check_outController extends Controller
      */
     public function store(Request $request)
     {
-        // $user_id=Auth::user()->id;
+        $userId=Auth::user()->id;
         $statusOrder=new order();
         $statusOrder->status='processing';
         $statusOrder->total=$request->total;
-        $statusOrder->user_id=$request->user_id;
+        $statusOrder->user_id=$userId;
         $statusOrder->delivery_price_id=$request->delivery_price_id;
-        $statusOrder->created_at=now();
         $statusOrder->save();
         return $statusOrder;
        
@@ -90,18 +91,7 @@ class Check_outController extends Controller
      */
     public function show(string $id)
     {
-        // $user_id =Auth::user()->$id;
-        // $address= Address::where('user_id',$id)->get();
-        // $address= DB::table('address')->where('user_id', $user_id)->get();
-
-
-        // if(count($address )==0){
-
-       
-        //     return ;
-        // }
-
-        // return $address->get();
+        
 
     }
     /**

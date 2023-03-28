@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
+use App\Models\Notification;
 
 class AuthController extends Controller
 {
@@ -76,6 +77,16 @@ class AuthController extends Controller
 
         return response()->json('Successfully logged out');
     }
+
+    // public function getNotifications(Request $request)
+    // {
+    //     $notifications = $request->user()->unreadNotifications()->orderBy('created_at', 'desc')->get();
+        
+    //     // mark all notifications as read
+    //     $request->user()->unreadNotifications->markAsRead();
+    
+    //     return response()->json(['notifications' => $notifications]);
+    // }
 
 
 }

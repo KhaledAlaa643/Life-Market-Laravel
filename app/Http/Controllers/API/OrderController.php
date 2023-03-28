@@ -17,7 +17,7 @@ class OrderController extends Controller
      * Display a listing of the resource.
      * 
      */
-   
+
     public function order(){
         $order = DB::table('order as o')
             ->join('users', 'users.id', '=', 'o.user_id')
@@ -30,37 +30,63 @@ class OrderController extends Controller
             });
         return $order;
     }
-    
 
-    
+
+
     public function orderview($orderId){
         $ordered = DB::table('products as p')
             ->join('order_items', 'order_items.prd_id', '=', 'p.id')
             ->join('order', 'order.id', '=', 'order_items.order_id')
-            ->join('users', 'users.id', '=', 'order.user_id')
+            ->join('users', 'users.id', '=', 'order.user_id')            
             ->join('address', 'address.user_id', '=', 'users.id')
-            ->select(DB::raw('SUM(order_items.quantity * p.price) as totaled'), 'order_id','p.name' ,'p.photo', 'p.description', 'p.id', 'p.price', DB::raw('SUM(order_items.quantity) as total_quantity'), 'users.first_name', 'users.last_name', 'users.email','users.phone', 'address.street', 'address.city', 'address.governorate', 'address.zip_code','order.created_at')
-            ->where('order_items.order_id', '=', $orderId)
-            ->groupBy('p.id', 'order_id','p.name','p.photo', 'p.description', 'p.price', 'users.first_name', 'users.last_name', 'users.email','users.phone', 'address.street', 'address.city', 'address.governorate', 'address.zip_code')
+            ->join('delivery_price', 'delivery_price.id', '=', 'order.delivery_price_id')
+            ->select(
+                'order.id as order_id','order.status','order.created_at','order.total as order_total',
+                'order_items.quantity',
+                'p.name as product_name','p.photo as product_photo','p.description as product_description','p.price as product_price',
+                'address.street','address.city', 'address.governorate', 'address.zip_code',
+                'users.first_name','users.last_name','users.email','users.phone',
+                'delivery_price.price as delivery_price','delivery_price.time as delivery_time'
+            )
+            ->where('order.id', '=', $orderId)
             ->get();
-             $ordered=$ordered->map(function($item, $index) {
-                $item->index = $index + 1;
-                return $item;
-            });
         return $ordered;
     }
-    
-    
-    
-    
-    
+
+
+
+    public function orderViewByUserId(){
+        $userId = Auth::id();
+        $ordered = DB::table('products as p')
+            ->join('order_items', 'order_items.prd_id', '=', 'p.id')
+            ->join('order', 'order.id', '=', 'order_items.order_id')
+            ->join('users', 'users.id', '=', 'order.user_id')            
+            ->join('address', 'address.user_id', '=', 'users.id')
+            ->join('delivery_price', 'delivery_price.id', '=', 'order.delivery_price_id')
+            ->select(
+                'order.id as order_id','order.status','order.created_at','order.total as order_total',
+                'order_items.quantity',
+                'p.name as product_name','p.description as product_description','p.price as product_price',
+                'address.street','address.city', 'address.governorate', 'address.zip_code',
+                'users.phone',
+                'delivery_price.price as delivery_price ','delivery_price.time as delivery_time'
+            )
+            ->where('order.user_id', '=', $userId)
+            ->get();
+        return $ordered;
+    }
+
+
+
+
+
     public function index($user_id)
     {
         $orders = Order::where('user_id', $user_id)->get();
-        
+
         return response()->json($orders);
     }
-    
+
 
 //     /**
 //      * Update the specified resource in storage.

@@ -25,6 +25,7 @@ use App\Http\Controllers\API\Check_outController;
 use App\Http\Controllers\API\AdminController;
 use App\Http\Controllers\API\CustomerController;
 use App\Http\Controllers\API\DeliveryController;
+use App\Http\Controllers\API\PaymentController;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -37,7 +38,7 @@ Route::middleware('auth:sanctum')->apiResource('rating',ProductsRatingConroller:
 Route::apiResource('discount',ProductsDiscountConroller::class);
 Route::apiResource('offers',OffersConroller::class);
 Route::apiResource('offers_products',OfferProductsConroller::class);
-Route::apiResource('favourite_item',FavouriteItemConroller::class);
+Route::middleware('auth:sanctum')-> apiResource('favourite_item',FavouriteItemConroller::class);
 Route::apiResource('contact_us',ContactUsConroller::class);
 Route::apiResource('order',OrderConroller::class);
 Route::middleware('auth:sanctum')->apiResource('cart',CartConroller::class);
@@ -80,7 +81,10 @@ Route::group(['middleware' => ['api']], function(){
     Route::get('offer/{id}', 'App\Http\Controllers\API\OffersConroller@get_offer_by_id');
     //get order id and date
     Route::get('orderss', 'App\Http\Controllers\API\OrderConroller@get_orders_id_and_date');
-
+    //store new fav item with prd_id
+    Route::middleware('auth:sanctum')->post('fav_item/{id}', 'App\Http\Controllers\API\FavouriteItemConroller@store_new_favourite_item_by_id');
+    //check
+    Route::middleware('auth:sanctum')->get('fav/{id}', 'App\Http\Controllers\API\FavouriteItemConroller@check');
 
    });
 
@@ -89,8 +93,9 @@ Route::apiResource('productdetails', App\Http\Controllers\API\ProductDetailsCont
 Route::apiResource('admin',App\Http\Controllers\API\AdminController::class);
 Route::apiResource('customer',App\Http\Controllers\API\CustomerController::class);
 Route::apiResource('delivery',App\Http\Controllers\API\DeliveryController::class);
+Route::apiResource('payment',App\Http\Controllers\API\PaymentController::class);
 //get product in cart
-Route::apiResource('cart',App\Http\Controllers\API\ShoppingCartController::class);
+// Route::apiResource('cart',App\Http\Controllers\API\ShoppingCartController::class);
 // get update quantity
 Route::group(['middleware' => ['api','auth:sanctum']], function(){
 
@@ -100,14 +105,20 @@ Route::group(['middleware' => ['api','auth:sanctum']], function(){
 
     Route::get('getcartprd', 'App\Http\Controllers\API\ShoppingCartController@index');
 
+    Route::get('cartprd','App\Http\Controllers\API\ShoppingCartController@show');
+
+    Route::delete('delprdfromcart/{id}','App\Http\Controllers\API\ShoppingCartController@destroy');
+
    });
 
-Route::get('status/checkout','App\Http\Controllers\API\Check_outController@getStatus');
-Route::get('governorate/checkout/{governorate}', 'App\Http\Controllers\API\Check_outController@getGovernorate');
+  // api for check out
+Route::group(['middleware' => ['api','auth:sanctum']], function(){
+    Route::get('status/checkout','App\Http\Controllers\API\Check_outController@getStatus');
+    Route::get('governorate/checkout/{governorate}', 'App\Http\Controllers\API\Check_outController@getGovernorate');
+    Route::get('orders/checkout/{id}', 'App\Http\Controllers\API\Check_outController@createOrder');
+    Route::post('checkout/createorder', 'App\Http\Controllers\API\Check_outController@store');
 
-Route::post('orders/checkout', 'App\Http\Controllers\API\Check_outController@createOrder');
-
-Route::post('statusorder/checkout', 'App\Http\Controllers\API\Check_outController@store');
+     });
 
 
 
@@ -140,7 +151,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::get('/fav-items', 'App\Http\Controllers\profile@getFavItems');
     Route::post('/fav-item/delete', 'App\Http\Controllers\profile@deleteFaveitem');
-    Route::get('/orders', 'App\Http\Controllers\profile@getOrdersDetails');
+    Route::get('/user/orders', 'App\Http\Controllers\profile@getOrdersDetails');
     Route::get('/orders/total', 'App\Http\Controllers\profile@getOrdersTotal');
     Route::get('/topsellings', 'App\Http\Controllers\profile@getTopSelling');
 
@@ -180,3 +191,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
 Route::get('/orders', 'App\Http\Controllers\API\OrderController@order');
 Route::put('/orders/{order_id}', 'App\Http\Controllers\API\OrderController@update');
 Route::get('/orders/{order_id}','App\Http\Controllers\API\OrderController@orderview');
+Route::middleware('auth:sanctum')->get('/ordersbyuserid','App\Http\Controllers\API\OrderController@orderViewByUserId');
+
+
+/////////Make Notification Routes/////
+Route::middleware('auth:sanctum')->get('/notifications', 'App\Http\Controllers\NotificationController@index');
+Route::middleware('auth:sanctum')->post('/notifications/mark-as-read', 'App\Http\Controllers\NotificationController@markAsRead');
+Route::middleware('auth:sanctum')->get('/notifications/unread-count', 'App\Http\Controllers\NotificationController@getUnreadCount');
+
