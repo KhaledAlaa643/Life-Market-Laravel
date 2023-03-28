@@ -66,7 +66,7 @@ class OrderController extends Controller
             ->select(
                 'order.id as order_id','order.status','order.created_at','order.total as order_total',
                 'order_items.quantity',
-                'p.name as product_name','p.description as product_description','p.price as product_price',
+                'p.id as product_id','p.name as product_name','p.description as product_description','p.price as product_price','p.photo as product_photo',
                 'address.street','address.city', 'address.governorate', 'address.zip_code',
                 'users.phone',
                 'delivery_price.price as delivery_price ','delivery_price.time as delivery_time'
