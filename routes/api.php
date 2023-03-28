@@ -100,15 +100,15 @@ Route::apiResource('payment',App\Http\Controllers\API\PaymentController::class);
 Route::group(['middleware' => ['api','auth:sanctum']], function(){
 
     Route::get('increment/shoppingcart/{id}', 'App\Http\Controllers\API\ShoppingCartController@incrementQuant');
-  
+
     Route::get('decrement/shoppingcart/{id}', 'App\Http\Controllers\API\ShoppingCartController@decrementQuant');
- 
+
     Route::get('getcartprd', 'App\Http\Controllers\API\ShoppingCartController@index');
 
     Route::get('cartprd','App\Http\Controllers\API\ShoppingCartController@show');
 
     Route::delete('delprdfromcart/{id}','App\Http\Controllers\API\ShoppingCartController@destroy');
- 
+
    });
 
   // api for check out
@@ -151,7 +151,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::get('/fav-items', 'App\Http\Controllers\profile@getFavItems');
     Route::post('/fav-item/delete', 'App\Http\Controllers\profile@deleteFaveitem');
-    Route::get('/orders', 'App\Http\Controllers\profile@getOrdersDetails');
+    Route::get('/user/orders', 'App\Http\Controllers\profile@getOrdersDetails');
     Route::get('/orders/total', 'App\Http\Controllers\profile@getOrdersTotal');
     Route::get('/topsellings', 'App\Http\Controllers\profile@getTopSelling');
 
