@@ -148,6 +148,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/address', 'App\Http\Controllers\AddressController@getAddress');
     Route::post('/address/update', 'App\Http\Controllers\AddressController@updateAddress');
     Route::post('/address/create', 'App\Http\Controllers\AddressController@createAddress');
+    Route::get('/alladdress', 'App\Http\Controllers\AddressController@getAllAddress');
+
 
     Route::get('/fav-items', 'App\Http\Controllers\profile@getFavItems');
     Route::post('/fav-item/delete', 'App\Http\Controllers\profile@deleteFaveitem');
