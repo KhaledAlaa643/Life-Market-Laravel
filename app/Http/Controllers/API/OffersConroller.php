@@ -33,7 +33,7 @@ class OffersConroller extends Controller
             'photo' => 'required|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
         $imageName = time().'.'.$request->photo->extension()    ;
-        $request->photo->move(public_path('storage/images'), $imageName);
+        $request->photo->move(public_path('storage/images/offers'), $imageName);
 
         $record->photo=$imageName;
         // $record->created_at=now();
