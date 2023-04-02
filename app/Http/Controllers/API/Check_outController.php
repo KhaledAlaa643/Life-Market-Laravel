@@ -79,7 +79,7 @@ class Check_outController extends Controller
         $statusOrder=new order();
         $statusOrder->status='processing';
         $statusOrder->total=$request->total;
-        $statusOrder->user_id=$request->user_id;
+        $statusOrder->user_id=$userId;
         $statusOrder->delivery_price_id=$request->delivery_price_id;
         $statusOrder->created_at=now();
         $statusOrder->save();
