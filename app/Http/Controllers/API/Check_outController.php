@@ -27,9 +27,9 @@ class Check_outController extends Controller
             return $gov;
       }
 
-      public function getStatus(){
+      public function getStatus( string $user_id){
 
-            $user_id=Auth::user()->id;
+            // $user_id=Auth::user()->id;
             $status=order::where('user_id',$user_id)->get();
             return $status;
       }

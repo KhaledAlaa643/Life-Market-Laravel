@@ -26,6 +26,8 @@ use App\Http\Controllers\API\AdminController;
 use App\Http\Controllers\API\CustomerController;
 use App\Http\Controllers\API\DeliveryController;
 use App\Http\Controllers\API\PaymentController;
+use App\Http\Controllers\API\PayPalController;
+use App\Http\Controllers\paymentTestController;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -93,7 +95,17 @@ Route::apiResource('productdetails', App\Http\Controllers\API\ProductDetailsCont
 Route::apiResource('admin',App\Http\Controllers\API\AdminController::class);
 Route::apiResource('customer',App\Http\Controllers\API\CustomerController::class);
 Route::apiResource('delivery',App\Http\Controllers\API\DeliveryController::class);
-Route::apiResource('payment',App\Http\Controllers\API\PaymentController::class);
+
+Route::group(['middleware' => ['api','auth:sanctum']], function(){
+    Route::post('payment/checkout', 'App\Http\Controllers\API\PaymentController@stripePost');
+ 
+     });
+   
+    
+
+    // api for check out
+
+
 //get product in cart
 // Route::apiResource('cart',App\Http\Controllers\API\ShoppingCartController::class);
 // get update quantity
