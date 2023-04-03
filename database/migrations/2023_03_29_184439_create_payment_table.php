@@ -11,12 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-       
         Schema::create('payment', function (Blueprint $table) {
             $table->id();
-            $table->string('cardName');
-            $table->bigInteger('cardNum');
-            $table->date('expiration_date');
+            $table->string('card_name');
+            $table->bigInteger('card_num');
+            $table->tinyInteger('expire_month');
+            $table->bigInteger('expire_year');
+            $table->bigInteger('amount');
             $table->timestamps();
         });
     }
