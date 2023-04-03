@@ -20,7 +20,7 @@ public function createGallery(Request $request){
    $file      = $request->file('photo');
     $filename  = time().'.'.$file->getClientOriginalName();
     $extension = $file->getClientOriginalExtension();
-    $request->photo->move(public_path('storage/images/gallery'), $filename);
+    $request->photo->move(public_path('storage/images/products'), $filename);
 
 
   $gallery=  product_photos::create([
