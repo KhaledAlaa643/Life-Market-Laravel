@@ -100,16 +100,16 @@ Route::apiResource('payment',App\Http\Controllers\API\PaymentController::class);
 Route::group(['middleware' => ['api','auth:sanctum']], function(){
 
     Route::get('increment/shoppingcart/{id}', 'App\Http\Controllers\API\ShoppingCartController@incrementQuant');
-  
+
     Route::get('decrement/shoppingcart/{id}', 'App\Http\Controllers\API\ShoppingCartController@decrementQuant');
- 
+
     Route::get('getcartprd', 'App\Http\Controllers\API\ShoppingCartController@index');
 
     Route::get('cartprd','App\Http\Controllers\API\ShoppingCartController@show');
 
     Route::delete('delprdfromcart/{id}','App\Http\Controllers\API\ShoppingCartController@destroy');
- 
-   });
+
+});
 
   // api for check out
 Route::group(['middleware' => ['api','auth:sanctum']], function(){
@@ -117,8 +117,7 @@ Route::group(['middleware' => ['api','auth:sanctum']], function(){
     Route::get('governorate/checkout/{governorate}', 'App\Http\Controllers\API\Check_outController@getGovernorate');
     Route::get('orders/checkout/{id}', 'App\Http\Controllers\API\Check_outController@createOrder');
     Route::post('checkout/createorder', 'App\Http\Controllers\API\Check_outController@store');
-
-     });
+});
 
 
 
