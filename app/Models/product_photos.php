@@ -16,5 +16,6 @@ class product_photos extends Model
 
         return $this->belongsTo(product_photos::class);
     }
+    protected $fillable = ['prd_id','path','created_at'];
 
 }

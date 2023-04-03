@@ -20,8 +20,8 @@ return new class extends Migration
             $table->string('brand');
             $table->integer('quantity');
             $table->string('photo');
-            $table->integer('prd_rating');   
-            $table->integer('selling_count');   
+            $table->integer('prd_rating')->default(0);   
+            $table->integer('selling_count')->default(0);   
             $table->timestamps();
         });
     }

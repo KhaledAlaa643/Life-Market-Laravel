@@ -36,16 +36,11 @@ class AuthController extends Controller
             'first_name' => ['required', 'string', 'max:100'],
             'last_name' => ['required', 'string', 'max:100'],
             'phone' => ['required'],
-            'type' => [
-                'required',
-
-            ],
+            'type' => ['required',],
             'email' => [
                 'required',
                 'string',
-                'unique:users',
-
-            ],
+                'unique:users', ],
             'password' => ['required', 'confirmed', Password::min(8)->letters()->numbers(), Password::defaults()],
 
         ]);

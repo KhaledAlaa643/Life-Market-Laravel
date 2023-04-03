@@ -26,6 +26,8 @@ use App\Http\Controllers\API\AdminController;
 use App\Http\Controllers\API\CustomerController;
 use App\Http\Controllers\API\DeliveryController;
 use App\Http\Controllers\API\PaymentController;
+use App\Http\Controllers\API\PayPalController;
+use App\Http\Controllers\paymentTestController;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -93,7 +95,17 @@ Route::apiResource('productdetails', App\Http\Controllers\API\ProductDetailsCont
 Route::apiResource('admin',App\Http\Controllers\API\AdminController::class);
 Route::apiResource('customer',App\Http\Controllers\API\CustomerController::class);
 Route::apiResource('delivery',App\Http\Controllers\API\DeliveryController::class);
-Route::apiResource('payment',App\Http\Controllers\API\PaymentController::class);
+
+Route::group(['middleware' => ['api','auth:sanctum']], function(){
+    Route::post('payment/checkout', 'App\Http\Controllers\API\PaymentController@stripePost');
+
+     });
+
+
+
+    // api for check out
+
+
 //get product in cart
 // Route::apiResource('cart',App\Http\Controllers\API\ShoppingCartController::class);
 // get update quantity
@@ -109,7 +121,7 @@ Route::group(['middleware' => ['api','auth:sanctum']], function(){
 
     Route::delete('delprdfromcart/{id}','App\Http\Controllers\API\ShoppingCartController@destroy');
 
-});
+   });
 
   // api for check out
 Route::group(['middleware' => ['api','auth:sanctum']], function(){
@@ -147,10 +159,12 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/address', 'App\Http\Controllers\AddressController@getAddress');
     Route::post('/address/update', 'App\Http\Controllers\AddressController@updateAddress');
     Route::post('/address/create', 'App\Http\Controllers\AddressController@createAddress');
+    Route::get('/alladdress', 'App\Http\Controllers\AddressController@getAllAddress');
+
 
     Route::get('/fav-items', 'App\Http\Controllers\profile@getFavItems');
     Route::post('/fav-item/delete', 'App\Http\Controllers\profile@deleteFaveitem');
-    Route::get('/orders', 'App\Http\Controllers\profile@getOrdersDetails');
+    Route::get('/user/orders', 'App\Http\Controllers\profile@getOrdersDetails');
     Route::get('/orders/total', 'App\Http\Controllers\profile@getOrdersTotal');
     Route::get('/topsellings', 'App\Http\Controllers\profile@getTopSelling');
 
@@ -180,6 +194,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/dashboard/products/by-sub_category/{Subcat}','App\Http\Controllers\ProductsManagementController@getProductsBySubCat');
     Route::get('/dashboard/products/all-products','App\Http\Controllers\ProductsManagementController@getAllProducts');
 
+    Route::delete('/dashboard/gallery/product/{id}','App\Http\Controllers\GalleryController@deleteGallery');
+    Route::get('/dashboard/gallery/product/{id}','App\Http\Controllers\GalleryController@getGalleryById');
+    Route::post('/dashboard/gallery/product','App\Http\Controllers\GalleryController@createGallery');
 
 });
 //////Order Dashboard routes/////////

@@ -10,6 +10,14 @@ use App\Notifications\AddressCreatedNotification;
 
 class AddressController extends Controller
 {
+    public function getAllAddress()
+    {
+
+        $address= DB::table('delivery_price')->get();
+        return $address;
+
+    }
+
     public function getAddress(Request $request)
     {
         $user_id = Auth::user()->id;

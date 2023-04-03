@@ -33,12 +33,12 @@ class profile extends Controller
         ]);
         $notificationData = [
             'user_id' => $user->id,
-           
+
             'data' => 'Your Account Updated successfully.',
             'notifiable_id' => $user->id,
             'notifiable_type' => 'App\Models\User'
         ];
-    
+
         $notification = new Notification($notificationData);
         $notification->save();
         return response()->json([
@@ -62,14 +62,17 @@ class profile extends Controller
             $orders_details[$i] = DB::table('order')
                 ->join('order_items', 'order_items.order_id', '=', 'order.id')
                 ->join('products', 'products.id', '=', 'order_items.prd_id')
+                ->join('delivery_price','order.delivery_price_id','=','delivery_price.id')
                 ->where('order_items.order_id', '=', $orders_id[$i])
                 ->select([
-
-                    'order_items.quantity',
+                    'order.id',
+                    'order.created_at',
+                    'order_items.quantity as product_qnt',
                     'order_items.total_price',
                     'products.name',
-                    'products.price',
-                 //  'products.photo'
+                    'products.price as product_price',
+                   'products.photo',
+                   'products.description',
                 ])
                 ->get();
         }
@@ -86,10 +89,19 @@ class profile extends Controller
             ]);
          }else{
 
-        $orders_total= DB::table('order')->where('user_id', $user_id)->get('total');
-
+        $orders_total= DB::table('order')->where('user_id', $user_id)->pluck('total');
+       $deliveryDetail=[];
+        for($i=0;$i<count($orders_id);$i++){
+            $deliveryDetail[$i]=   DB::table('order')
+            ->join('delivery_price','delivery_price.id','=','order.delivery_price_id')
+            ->where('order.id','=',$orders_id[$i])
+            ->select('delivery_price.price','delivery_price.time','order.status','order.created_at')
+            ->first();
+        }
+        $orders_details=[$orders_total,$deliveryDetail];
     }
-return $orders_total;}
+         return $orders_details;}
+
     public function getFavItems()
     {
         $user_id = Auth::user()->id;

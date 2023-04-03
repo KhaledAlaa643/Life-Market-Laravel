@@ -67,17 +67,7 @@ public function getProductsBySubCat(Request $request){
    public function updateProduct(Request $request){
     $user_id= Auth::user()->id;
 
-    // $request->validate([
-    //     'name' => 'required | string | unique:sub_categories,name',
-    //     'description' => 'required | string',
-    //     'sub_cat_id' => 'required |integer',
-
-    //     'price'=>'required | int',
-    //     "brand"=>'required | string',
-    //     "quantity"=>'required | int',
-
-    //      'id'=>'required | int'
-    // ]);
+ 
     $file = $request->file('photo');
     $filename  = time().'.'.$file->getClientOriginalName();
     $extension = $file->getClientOriginalExtension();
