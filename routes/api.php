@@ -20,7 +20,6 @@ use App\Http\Controllers\API\ContactUsConroller;
 use App\Http\Controllers\API\CartConroller;
 use App\Http\Controllers\API\OrderConroller;
 use App\Http\Controllers\API\UserConroller;
-
 use App\Http\Controllers\API\Check_outController;
 use App\Http\Controllers\API\AdminController;
 use App\Http\Controllers\API\CustomerController;
@@ -28,6 +27,8 @@ use App\Http\Controllers\API\DeliveryController;
 use App\Http\Controllers\API\PaymentController;
 use App\Http\Controllers\API\PayPalController;
 use App\Http\Controllers\paymentTestController;
+
+
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -46,20 +47,16 @@ Route::apiResource('order',OrderConroller::class);
 Route::middleware('auth:sanctum')->apiResource('cart',CartConroller::class);
 Route::apiResource('userss',UserConroller::class);
 
-
 Route::group(['middleware' => ['api']], function(){
-   //search for product using name ,brand ,sub cat
- Route::get('search/{name}', 'App\Http\Controllers\API\SearchConroller@search');
- Route::post('search', 'App\Http\Controllers\API\SearchConroller@search');
+    //search for product using name ,brand ,sub cat
+    Route::get('search/{name}', 'App\Http\Controllers\API\SearchConroller@search');
+    Route::post('search', 'App\Http\Controllers\API\SearchConroller@search');
 });
-
-
-
 
 Route::group(['middleware' => ['api']], function(){
     //update product quantity& selling count by prod id
     Route::put('update/products/{num}', 'App\Http\Controllers\API\ProductsConroller@updateproduct');
-     //update rate of product based on product id from prd rate table
+    //update rate of product based on product id from prd rate table
     Route::put('products/rate/{num}', 'App\Http\Controllers\API\ProductsConroller@getrate');
     //get top rating products
     Route::get('toprating/products', 'App\Http\Controllers\API\ProductsConroller@top_rating_products');
@@ -67,15 +64,15 @@ Route::group(['middleware' => ['api']], function(){
     Route::get('topselling/products', 'App\Http\Controllers\API\ProductsConroller@top_selling_products');
     //get count of orders
     Route::get('orders/count', 'App\Http\Controllers\API\OrderConroller@getordercount');
-   //search for product using name ,brand ,sub cat
+    //search for product using name ,brand ,sub cat
     Route::get('search/{name}', 'App\Http\Controllers\API\SearchConroller@search');
-     //get products by category id
+    //get products by category id
     Route::get('category/products/{num}', 'App\Http\Controllers\API\CategoriesConroller@getproducts');
     //get users count
     Route::get('users/count', 'App\Http\Controllers\API\UserConroller@getuserscount');
     //get products count
     Route::get('product/count', 'App\Http\Controllers\API\ProductsConroller@getproductscount');
-
+    //get products from offers
     Route::get('offers_products/select/{id}', 'App\Http\Controllers\API\OfferProductsConroller@add_offer_products');
     //calc_total_income
     Route::get('total_income', 'App\Http\Controllers\API\OrderConroller@calc_total_income');
@@ -87,9 +84,7 @@ Route::group(['middleware' => ['api']], function(){
     Route::middleware('auth:sanctum')->post('fav_item/{id}', 'App\Http\Controllers\API\FavouriteItemConroller@store_new_favourite_item_by_id');
     //check
     Route::middleware('auth:sanctum')->get('fav/{id}', 'App\Http\Controllers\API\FavouriteItemConroller@check');
-
-   });
-
+});
 
 Route::apiResource('productdetails', App\Http\Controllers\API\ProductDetailsController::class);
 Route::apiResource('admin',App\Http\Controllers\API\AdminController::class);
@@ -97,71 +92,47 @@ Route::apiResource('customer',App\Http\Controllers\API\CustomerController::class
 Route::apiResource('delivery',App\Http\Controllers\API\DeliveryController::class);
 
 Route::group(['middleware' => ['api','auth:sanctum']], function(){
-    Route::post('payment/checkout', 'App\Http\Controllers\API\PaymentController@stripePost');
- 
-     });
-   
-    
+    Route::post('paymentt/checkoutt', 'App\Http\Controllers\API\PaymentController@stripePost');
+});
 
-    // api for check out
-
-
-//get product in cart
-// Route::apiResource('cart',App\Http\Controllers\API\ShoppingCartController::class);
-// get update quantity
 Route::group(['middleware' => ['api','auth:sanctum']], function(){
-
     Route::get('increment/shoppingcart/{id}', 'App\Http\Controllers\API\ShoppingCartController@incrementQuant');
-
     Route::get('decrement/shoppingcart/{id}', 'App\Http\Controllers\API\ShoppingCartController@decrementQuant');
-
     Route::get('getcartprd', 'App\Http\Controllers\API\ShoppingCartController@index');
-
     Route::get('cartprd','App\Http\Controllers\API\ShoppingCartController@show');
-
     Route::delete('delprdfromcart/{id}','App\Http\Controllers\API\ShoppingCartController@destroy');
+});
 
-   });
-
-  // api for check out
+// api for check out
 Route::group(['middleware' => ['api','auth:sanctum']], function(){
     Route::get('status/checkout','App\Http\Controllers\API\Check_outController@getStatus');
     Route::get('governorate/checkout/{governorate}', 'App\Http\Controllers\API\Check_outController@getGovernorate');
     Route::get('orders/checkout/{id}', 'App\Http\Controllers\API\Check_outController@createOrder');
     Route::post('checkout/createorder', 'App\Http\Controllers\API\Check_outController@store');
-
-     });
-
-
+});
 
 Route::group(['middleware' => ['api']], function(){
     Route::get('gallrey/productdetails/{id}', 'App\Http\Controllers\API\GallreyPhotoController@getgallery');
-   });
+});
 
 Route::group(['middleware' => ['api']], function(){
     Route::get('review/productdetails/{id}', 'App\Http\Controllers\API\ReviewProductController@getRating');
-   });
+});
+
 //public routes
 Route::post('/login', 'App\Http\Controllers\AuthController@login');
 Route::post('/register', 'App\Http\Controllers\AuthController@register');
 Route::post('/password-reset', 'App\Http\Controllers\passwordReset@sendEmail');
 
-
-
 //protected routes
 Route::middleware(['auth:sanctum'])->group(function () {
-
-
-
     //profile routes
     Route::get('/user/data', 'App\Http\Controllers\profile@userData');
     Route::post('/user/update', 'App\Http\Controllers\profile@updateUserData');
-
     Route::get('/address', 'App\Http\Controllers\AddressController@getAddress');
     Route::post('/address/update', 'App\Http\Controllers\AddressController@updateAddress');
     Route::post('/address/create', 'App\Http\Controllers\AddressController@createAddress');
     Route::get('/alladdress', 'App\Http\Controllers\AddressController@getAllAddress');
-
 
     Route::get('/fav-items', 'App\Http\Controllers\profile@getFavItems');
     Route::post('/fav-item/delete', 'App\Http\Controllers\profile@deleteFaveitem');
@@ -171,8 +142,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::post('/logout', 'App\Http\Controllers\AuthController@logout');
 
-
     Route::post('addprdtocart', 'App\Http\Controllers\API\CartConroller@store');
+
     //Dashboard Routes
     //category
     Route::post('/dashboard/create/category','App\Http\Controllers\CategoryManage@createCategory');
@@ -180,7 +151,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/dashboard/products/update/category','App\Http\Controllers\CategoryManage@updateCategory');
     Route::get('/dashboard/products/all-categories','App\Http\Controllers\CategoryManage@getcategories');
     Route::get('/dashboard/category/{id}','App\Http\Controllers\CategoryManage@getCategoryById');
-
     //sub-category
     Route::post('/dashboard/create/sub-category','App\Http\Controllers\SubCategoryManage@createSubCategory');
     Route::delete('/dashboard/products/delete/sub-category/{id}','App\Http\Controllers\SubCategoryManage@deleteSubCategory');
@@ -194,14 +164,13 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::delete('/dashboard/products/delete/product/{id}','App\Http\Controllers\ProductsManagementController@deleteProduct');
     Route::get('/dashboard/products/by-sub_category/{Subcat}','App\Http\Controllers\ProductsManagementController@getProductsBySubCat');
     Route::get('/dashboard/products/all-products','App\Http\Controllers\ProductsManagementController@getAllProducts');
-
     Route::delete('/dashboard/gallery/product/{id}','App\Http\Controllers\GalleryController@deleteGallery');
     Route::get('/dashboard/gallery/product/{id}','App\Http\Controllers\GalleryController@getGalleryById');
     Route::post('/dashboard/gallery/product','App\Http\Controllers\GalleryController@createGallery');
 
 });
-//////Order Dashboard routes/////////
 
+//////Order Dashboard routes/////////
 Route::get('/orders', 'App\Http\Controllers\API\OrderController@order');
 Route::put('/orders/{order_id}', 'App\Http\Controllers\API\OrderController@update');
 Route::get('/orders/{order_id}','App\Http\Controllers\API\OrderController@orderview');
@@ -212,4 +181,3 @@ Route::middleware('auth:sanctum')->get('/ordersbyuserid','App\Http\Controllers\A
 Route::middleware('auth:sanctum')->get('/notifications', 'App\Http\Controllers\NotificationController@index');
 Route::middleware('auth:sanctum')->post('/notifications/mark-as-read', 'App\Http\Controllers\NotificationController@markAsRead');
 Route::middleware('auth:sanctum')->get('/notifications/unread-count', 'App\Http\Controllers\NotificationController@getUnreadCount');
-
