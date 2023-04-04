@@ -111,3 +111,8 @@ Route::get('/orders/{order_id}', 'App\Http\Controllers\API\OrderController@order
 Route::middleware('auth:sanctum')->get('/notifications', 'App\Http\Controllers\NotificationController@index');
 Route::middleware('auth:sanctum')->post('/notifications/mark-as-read', 'App\Http\Controllers\NotificationController@markAsRead');
 Route::middleware('auth:sanctum')->get('/notifications/unread-count', 'App\Http\Controllers\NotificationController@getUnreadCount');
+/////////////////////////////forgetand reset password/////////
+Route::post('/password/forget', 'App\Http\Controllers\API\forgetPasswordController@forgetPassword');
+Route::post('/password/reset', 'App\Http\Controllers\API\resetPasswordController@resetPassword');
+Route::post('/new-password', 'App\Http\Controllers\API\NewPasswordController@create');
+
