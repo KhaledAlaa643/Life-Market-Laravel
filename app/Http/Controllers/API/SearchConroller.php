@@ -19,29 +19,32 @@ class SearchConroller extends Controller
        
         foreach($product as $category)
         { 
-         $arr[$i]=$category;
-         $i++;
+            if($category->quantity > 0){
+                $arr[$i]=$category;
+                $i++;
+            }
         }
 
         foreach($brand as $category)
         {
+            if($category->quantity > 0){
                 $arr[$i]=$category;
-                $i++;   
-          
+                $i++;
+            }  
         }
 
         if (count ($sub_cat)!=0)
         {
-         $sub_cat_products=Products::where('sub_cat_id',$sub_cat[0]["id"])->get();
-         foreach($sub_cat_products as $category)
-        {
+            $sub_cat_products=Products::where('sub_cat_id',$sub_cat[0]["id"])->get();
+            foreach($sub_cat_products as $category)
+            {
+                if($category->quantity > 0){
                     $arr[$i]=$category;
-                    $i++;   
-              
-    
-        } 
-
+                    $i++;
+                }    
+            } 
         }
+
         if (count($arr)!=0)
         {
             return array_unique($arr);
@@ -52,9 +55,6 @@ class SearchConroller extends Controller
             $arr[0]="no such product with that name";
             return $arr;
         }
-
-         
-          
 
     }
 

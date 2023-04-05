@@ -78,16 +78,18 @@ class ProductsConroller extends Controller
         $products =Products::all();
         foreach ($products as $prd)
         {
-            $all_products[$i]=$prd;
-             $i++;
+            if($prd->quantity > 0){
+                $all_products[$i]=$prd;
+                $i++;
+            }
         }
 
-          usort($all_products, function($a, $b)
-             {
-            return $b->prd_rating - $a->prd_rating;
-           });
+        usort($all_products, function($a, $b)
+            {
+        return $b->prd_rating - $a->prd_rating;
+        });
 
-             return $all_products;
+        return $all_products;
        
     }
 //get top selling products
@@ -98,16 +100,18 @@ class ProductsConroller extends Controller
         $products =Products::all();
         foreach ($products as $prd)
         {
-            $all_products[$i]=$prd;
-             $i++;
+            if($prd->quantity > 0){
+                $all_products[$i]=$prd;
+                $i++;
+            }
         }
 
-          usort($all_products, function($a, $b)
-             {
-            return $b->selling_count - $a->selling_count;
-           });
+        usort($all_products, function($a, $b)
+            {
+        return $b->selling_count - $a->selling_count;
+        });
 
-             return $all_products;
+        return $all_products;
 
     }
 

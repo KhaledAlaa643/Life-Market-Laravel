@@ -33,7 +33,7 @@ class SubCategoriesConroller extends Controller
      */
     public function show(string $id)
     {
-        $product=Products::where('sub_cat_id',$id)->get();
+        $product=Products::where('sub_cat_id',$id)->where('quantity','>',0)->get();
         return $product;
     }
 
