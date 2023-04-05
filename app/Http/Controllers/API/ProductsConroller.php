@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Products;
 use App\Models\ProductsRating;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ProductsConroller extends Controller
 {
@@ -56,6 +58,16 @@ class ProductsConroller extends Controller
            return [];
         }
 
+    }
+
+    public function checkRate (string $prdId) 
+    {
+        $userId = Auth::id();
+        $rate = DB::table('products_rating')
+        ->where('prd_id', '=', $prdId)
+        ->where('user_id', '=', $userId)
+        ->get();
+        return $rate;
     }
 
 //get top rating products

@@ -58,6 +58,8 @@ Route::group(['middleware' => ['api']], function(){
     Route::put('update/products/{num}', 'App\Http\Controllers\API\ProductsConroller@updateproduct');
     //update rate of product based on product id from prd rate table
     Route::put('products/rate/{num}', 'App\Http\Controllers\API\ProductsConroller@getrate');
+    //update rate of product based on product id from prd rate table
+    Route::middleware('auth:sanctum')->get('products/checkrate/{prdid}', 'App\Http\Controllers\API\ProductsConroller@checkRate');
     //get top rating products
     Route::get('toprating/products', 'App\Http\Controllers\API\ProductsConroller@top_rating_products');
     //get top selling products
