@@ -28,7 +28,7 @@ class CategoriesConroller extends Controller
          {
             foreach ($product as $prd)
             {
-                if ($prd["sub_cat_id"]==$ids["id"])
+                if ($prd["sub_cat_id"]==$ids["id"] && $prd->quantity > 0)
                 {
                     $arr[$i]=$prd;
                     $i++;

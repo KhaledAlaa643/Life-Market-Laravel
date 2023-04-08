@@ -8,7 +8,7 @@ use App\Models\Payment;
 use App\Models\Order;
 use Stripe\Charge;
 use Stripe;
-use Stripe\PaymentIntent; 
+use Stripe\PaymentIntent;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Validator;
@@ -19,7 +19,7 @@ class PaymentController extends Controller
 
     public function stripePost( Request $request ){
 
-             try{
+            try{
 
                 $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
 
@@ -39,7 +39,7 @@ class PaymentController extends Controller
                         'exp_year'=>$request->exp_year,
                         'cvc'=>$request->cvc,
                     ],
-             
+
                   ]);
 
                 Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
@@ -52,7 +52,7 @@ class PaymentController extends Controller
                    ]);
 
                     return response()->json([$response->status], 201);
-  
+
                }
 
                 catch(Exception $ex){
@@ -74,7 +74,7 @@ class PaymentController extends Controller
      */
     public function store(Request $request)
     {
-       
+
     }
 
     /**

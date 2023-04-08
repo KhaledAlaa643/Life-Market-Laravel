@@ -43,7 +43,7 @@ class SubCategoryManage extends Controller
     $request->validate([
         'name' => 'required | string | unique:categories,name',
         'description' => 'required | string',
-        'cat_id' => 'required | string ',
+        'cat_id' => 'required',
 
     ]);
     DB::table('sub_categories')->where('id', $request->id)

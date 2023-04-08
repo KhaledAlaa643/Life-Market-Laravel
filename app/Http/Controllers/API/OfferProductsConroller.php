@@ -10,47 +10,6 @@ use App\Models\Offers;
 
 class OfferProductsConroller extends Controller
 {
-    // public function add_offer_products(string $off_id ,Request $request)
-    // {
-        
-    //     //get ids of offer products 
-    //     $offer_products_id=OfferProducts::where('offer_id',$off_id)->get("prd_id");
-
-    //     if (count($offer_products_id)!=0)
-    //     {
-    //        foreach($offer_products_id as $prd)                             //get all products that have the same product offer
-    //        {
-    //         $product=Products::where('id',$prd["prd_id"])->get();
-    //         if (count ($product)!=0)
-    //              { $arr[$i]= $product[0];
-    //                 $i++;
-    //              }
-
-    //        }
-    //     }
-    //     ////////////////////////////////////////////////////////////////////////////
-    //         $off_discount=Offers::where('id',$off_id)->get("discont_percent");
-           
-    //         foreach ($arr as $pro)
-    //         {
-    //         $pro["price_before_discount"]=$pro["price"];
-
-    //         $pro["price"]=$pro["price_before_discount"]-( $pro["price_before_discount"] *$off_discount[0]->discont_percent/100);
-            
-    //         }
-            
-    //         foreach ($arr as $pro)
-    //         {
-    //             $x=array_unique($arr);
-
-    //         }
-    //         foreach ($x as $pro)
-    //         {
-    //             $pro->save();
-
-    //      }
-
-
     // }
     /**
      * Display a listing of the resource.
@@ -99,13 +58,14 @@ class OfferProductsConroller extends Controller
         {
            foreach($offer_products_id as $prd)
            {
-            $product=Products::where('id',$prd["prd_id"])->get();
-            if (count ($product)!=0)
-                 { $arr[$i]= $product[0];
-                    $i++;
-                 }
-
-           }
+                $product=Products::where('id',$prd["prd_id"])->get();
+                if (count ($product)!=0){
+                    if($product[0]->quantity > 0){
+                        $arr[$i]= $product[0];
+                        $i++;
+                    }
+                }
+            }
         }
         
         return $arr;

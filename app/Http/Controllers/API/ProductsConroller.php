@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Products;
 use App\Models\ProductsRating;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ProductsConroller extends Controller
 {
@@ -58,6 +60,16 @@ class ProductsConroller extends Controller
 
     }
 
+    public function checkRate (string $prdId) 
+    {
+        $userId = Auth::id();
+        $rate = DB::table('products_rating')
+        ->where('prd_id', '=', $prdId)
+        ->where('user_id', '=', $userId)
+        ->get();
+        return $rate;
+    }
+
 //get top rating products
     public function top_rating_products () 
     {   
@@ -66,16 +78,18 @@ class ProductsConroller extends Controller
         $products =Products::all();
         foreach ($products as $prd)
         {
-            $all_products[$i]=$prd;
-             $i++;
+            if($prd->quantity > 0){
+                $all_products[$i]=$prd;
+                $i++;
+            }
         }
 
-          usort($all_products, function($a, $b)
-             {
-            return $b->prd_rating - $a->prd_rating;
-           });
+        usort($all_products, function($a, $b)
+            {
+        return $b->prd_rating - $a->prd_rating;
+        });
 
-             return $all_products;
+        return $all_products;
        
     }
 //get top selling products
@@ -86,16 +100,18 @@ class ProductsConroller extends Controller
         $products =Products::all();
         foreach ($products as $prd)
         {
-            $all_products[$i]=$prd;
-             $i++;
+            if($prd->quantity > 0){
+                $all_products[$i]=$prd;
+                $i++;
+            }
         }
 
-          usort($all_products, function($a, $b)
-             {
-            return $b->selling_count - $a->selling_count;
-           });
+        usort($all_products, function($a, $b)
+            {
+        return $b->selling_count - $a->selling_count;
+        });
 
-             return $all_products;
+        return $all_products;
 
     }
 
